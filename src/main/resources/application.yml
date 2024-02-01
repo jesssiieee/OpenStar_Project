@@ -21,5 +21,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        ddl-auto: update
 mybatis:
   mapper-locations: mappers/*Mapper.xml  

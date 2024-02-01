@@ -36,6 +36,10 @@ dependencies {
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
   	implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '2.0.0'
   	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
+ 	implementation group: 'org.json', name: 'json', version: '20090211'
+ 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+ 	implementation 'com.google.code.gson:gson:2.8.8'
+ 	
 }
 
 tasks.named('test') {

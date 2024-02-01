@@ -102,6 +102,7 @@ public class UserRestController {
 		
 		if (user != null) {
 			// 비밀번호 일치 확인
+			// BCrypt.checkpw(입력한 비밀번호, 암호화된 비밀번호);
 			if (isValid = BCrypt.checkpw(password, user.getPassword())) {
 				
 				// 로그인 정보 세션에 담아두가
