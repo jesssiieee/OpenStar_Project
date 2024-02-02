@@ -32,6 +32,8 @@ public class MovieEntity {
 	
     private Double popularity; // 인기도
     
+    private String overview;
+    
     @Column(name="posterPath")
     private String posterPath; // 포스터 이미지
 

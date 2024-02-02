@@ -1,9 +1,5 @@
 @charset "UTF-8";
 
-header {
-	height: 100px;
-}
-
 .contents{
 	min-height: 500px;
 }
@@ -20,4 +16,29 @@ header {
 	background-color:#D8D8D8;
 }
 
+
+ .flex-container {
+  display: flex;
+  /* 아이템들을 가로방향으로 흐르게 해준다 */
+  flex-direction: row;
+  width: 100px;
+}
+
+.flex-container > img {
+  background-color: #f1f1f1;
+  width: 100px;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+} 
+
+.flex-item {
+  background-color: #f1f1f1;
+  width: 192px; /* 포스터 이미지의 원래 가로 크기 */
+  height: 288px; /* 포스터 이미지의 원래 세로 크기 */
+  margin: 10px;
+  text-align: center;
+  font-size: 30px;
+}
 

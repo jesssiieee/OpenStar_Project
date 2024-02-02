@@ -45,6 +45,7 @@ public class ApiService {
                     MovieEntity.builder()
                     .movieId(contents.get("id").getAsInt())
                     .popularity(contents.get("popularity").getAsDouble())
+                    .overview(contents.get("overview").getAsString())
                     .posterPath(ImgUrl + contents.get("poster_path").toString().replaceAll(match, ""))
                     .releaseDate(LocalDate.parse(contents.get("release_date").getAsString()))
                     .title(contents.get("title").toString())

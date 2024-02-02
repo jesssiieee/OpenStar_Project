@@ -5,11 +5,12 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,6 +34,12 @@ public class MovieRestController {
 		 MovieEntity movie = movieRepository.findByMovieId(movieId);
 		return movie;
 	}
+	
+	@GetMapping("/api/trendMovies")
+	public List<MovieEntity> getAllMovies(Model model) {
+        return movieRepository.findAll();
+    }
+	
 
 	@ResponseBody
 	@GetMapping("/api/trendMoviesGetInfo")
@@ -41,9 +48,9 @@ public class MovieRestController {
 		int pages = 1;
 		String result = "";
 		
-		for(int i = 1; i <= 3; i++) { // 20개
+		for(int i = 1; i <= 10; i++) { 
 			String apiURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + 
-					KEY + "&sort_by=release_date.desc&language=ko&page=" + i;
+					KEY + "&language=ko&page=" + i;
 			
 			try {
 				URL url = new URL(apiURL);
