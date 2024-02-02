@@ -8,10 +8,14 @@ import java.net.URL;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.openstar.movie.Entity.MovieEntity;
 import com.openstar.movie.bo.ApiService;
+import com.openstar.movie.repository.MovieRepository;
 
 @RestController
 public class MovieRestController {
@@ -19,11 +23,20 @@ public class MovieRestController {
 	@Autowired
 	private ApiService apiService;
 	
+	@Autowired
+	private MovieRepository movieRepository;
+	
 	public static final String KEY = "b250b43bc815002de64903f4433d25bd";
+	
+	@GetMapping("/api/trendMovies/{movieId}")
+	public MovieEntity getMovieById(@PathVariable(name="movieId") int movieId) {
+		 MovieEntity movie = movieRepository.findByMovieId(movieId);
+		return movie;
+	}
 
 	@ResponseBody
-	// url: http:localhost/api/trendinMoviesGetInfo
-	@GetMapping("/api/trendinMoviesGetInfo")
+	@GetMapping("/api/trendMoviesGetInfo")
+	// url: http:localhost/api/trendMoviesGetInfo
 	public String trendinMoviesGetInfo() throws IOException {
 		int pages = 1;
 		String result = "";
@@ -48,7 +61,6 @@ public class MovieRestController {
 			}
 		}
 
-		
 		return result;
 	}
 	

@@ -2,6 +2,7 @@ package com.openstar.movie.Entity;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,12 +27,15 @@ public class MovieEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
 	private int id;
 	
+	@Column(name="movieId")
 	private int movieId;
 	
     private Double popularity; // 인기도
-
+    
+    @Column(name="posterPath")
     private String posterPath; // 포스터 이미지
 
+    @Column(name="releaseDate")
     private LocalDate releaseDate; // 개봉일
 
     private String title; // 제목
