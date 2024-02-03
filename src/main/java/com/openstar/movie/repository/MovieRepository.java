@@ -2,10 +2,11 @@ package com.openstar.movie.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.openstar.movie.Entity.MovieEntity;
+import com.openstar.movie.Entity.MoviesTrendEntity;
 
-public interface MovieRepository extends JpaRepository<MovieEntity, Integer> {
+public interface MovieRepository extends JpaRepository<MoviesTrendEntity, Integer> {
 	
-	public MovieEntity findByMovieId(int movieId);
+	public MoviesTrendEntity findByMovieId(int movieId);
+
 	
 }

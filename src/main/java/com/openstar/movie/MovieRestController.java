@@ -14,29 +14,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.openstar.movie.Entity.MovieEntity;
-import com.openstar.movie.bo.ApiService;
+import com.openstar.movie.Entity.MoviesTrendEntity;
+import com.openstar.movie.bo.MovieTrendBO;
+import com.openstar.movie.bo.TvTrendBO;
 import com.openstar.movie.repository.MovieRepository;
 
 @RestController
 public class MovieRestController {
 	
 	@Autowired
-	private ApiService apiService;
+	private MovieTrendBO movieTrendBO;
 	
 	@Autowired
 	private MovieRepository movieRepository;
 	
+	@Autowired
+	private TvTrendBO tvtrendBO;
+	
 	public static final String KEY = "b250b43bc815002de64903f4433d25bd";
 	
 	@GetMapping("/api/trendMovies/{movieId}")
-	public MovieEntity getMovieById(@PathVariable(name="movieId") int movieId) {
-		 MovieEntity movie = movieRepository.findByMovieId(movieId);
+	public MoviesTrendEntity getMovieById(@PathVariable(name="movieId") int movieId) {
+		MoviesTrendEntity movie = movieRepository.findByMovieId(movieId);
 		return movie;
 	}
 	
 	@GetMapping("/api/trendMovies")
-	public List<MovieEntity> getAllMovies(Model model) {
+	public List<MoviesTrendEntity> getAllMovies(Model model) {
         return movieRepository.findAll();
     }
 	
@@ -49,8 +53,8 @@ public class MovieRestController {
 		String result = "";
 		
 		for(int i = 1; i <= 10; i++) { 
-			String apiURL = "https://api.themoviedb.org/3/discover/movie?api_key=" + 
-					KEY + "&language=ko&page=" + i;
+			String apiURL = "https://api.themoviedb.org/3/trending/movie/week?api_key=" + 
+					KEY + "&language=ko&sort_by=vote_average.desc&page=" + i;
 			
 			try {
 				URL url = new URL(apiURL);
@@ -60,7 +64,37 @@ public class MovieRestController {
 				
 				result = bf.readLine();
 				
-				apiService.getInfo(result);
+				movieTrendBO.getInfo(result);
+				
+				
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return result;
+	}
+	
+	@ResponseBody
+	@GetMapping("/api/trendTvGetInfo")
+	// url: http:localhost/api/trendTvGetInfo
+	public String trendTvGetInfo() throws IOException {
+		int pages = 1;
+		String result = "";
+		
+		for(int i = 1; i <= 10; i++) { 
+			String apiURL = "https://api.themoviedb.org/3/trending/tv/week?api_key=" + 
+					KEY + "&language=ko&sort_by=vote_average.desc&page=" + i;
+			
+			try {
+				URL url = new URL(apiURL);
+				
+				BufferedReader bf;
+				bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+				
+				result = bf.readLine();
+				
+				tvtrendBO.getInfo(result);
 				
 				
 			} catch (MalformedURLException e) {

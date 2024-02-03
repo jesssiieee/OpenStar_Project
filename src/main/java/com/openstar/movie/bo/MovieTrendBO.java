@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.openstar.movie.Entity.MovieEntity;
+import com.openstar.movie.Entity.MoviesTrendEntity;
 import com.openstar.movie.repository.MovieRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Service
 @Slf4j
-public class ApiService {
+public class MovieTrendBO {
 	
 	@Autowired
 	private MovieRepository movieRepository;
@@ -42,9 +42,9 @@ public class ApiService {
             String match = "[\"]";
 
             movieRepository.save(
-                    MovieEntity.builder()
+            		MoviesTrendEntity.builder()
                     .movieId(contents.get("id").getAsInt())
-                    .popularity(contents.get("popularity").getAsDouble())
+                    .grade(contents.get("vote_average").getAsDouble())
                     .overview(contents.get("overview").getAsString())
                     .posterPath(ImgUrl + contents.get("poster_path").toString().replaceAll(match, ""))
                     .releaseDate(LocalDate.parse(contents.get("release_date").getAsString()))

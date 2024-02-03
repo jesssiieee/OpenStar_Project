@@ -21,26 +21,25 @@ import lombok.ToString;
 @Builder
 @Entity
 @Table(name="trendmovie")
-public class MovieEntity {
+public class MoviesTrendEntity {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // auto-increment
 	private int id;
 	
 	@Column(name="movieId")
-	private int movieId;
+	private int movieId; // id
 	
-    private Double popularity; // 인기도
+    private Double grade; // 평점, vote_average
     
-    private String overview;
+    private String overview; // 내용 요약
     
     @Column(name="posterPath")
-    private String posterPath; // 포스터 이미지
+    private String posterPath; // 포스터 이미지, poster_path"
 
     @Column(name="releaseDate")
-    private LocalDate releaseDate; // 개봉일
+    private LocalDate releaseDate; // 개봉일 , release_date
 
-    private String title; // 제목
-
+    private String title; // 제목, name
 	
 }
