@@ -31,6 +31,7 @@ public class MovieRestController {
 	@Autowired
 	private TvTrendBO tvtrendBO;
 	
+	
 	public static final String KEY = "b250b43bc815002de64903f4433d25bd";
 	
 	@GetMapping("/api/trendMovies/{movieId}")
@@ -104,5 +105,6 @@ public class MovieRestController {
 
 		return result;
 	}
+
 	
 }

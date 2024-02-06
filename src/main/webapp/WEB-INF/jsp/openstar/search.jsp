@@ -6,11 +6,41 @@
 
 		<div class="input-group input-group-lg">
 			<div class="input-group-prepend">
-				<span class="input-group-text" id="SearchFor">Search</span>
+				<span class="input-group-text">Search</span>
 			</div>
-			<input type="text" class="form-control" aria-label="Large"
+			<input type="text" class="form-control" id="SearchFor" aria-label="Large"
 				placeholder="작품의 제목, 배우, 감독으로 검색하세요.">
+			<button class="btn btn-primary" id="searchButton">검색</button>
 		</div>
 
 	</div>
 </div>
+
+<script>
+	
+	$(document).ready(function() {
+		
+		$("#searchButton").on('click', function() {
+			// alert("검색");
+			let searchActorName = $("#SearchFor").val().trim();
+			// alert(searchActorName);
+			if (searchActorName !== '') {
+				// ajax
+				$.ajax ({
+					type: "GET"
+					, url: "/post/post-search/" + encodeURIComponent(searchActorName)
+					, success: function(result) {
+						location.href="/openstar/search-view";
+					}
+					, error: function(error) {
+						console.error(error);
+					}
+					
+				});
+			}
+			
+		}); // searchButton
+		
+	}); // ready
+	
+</script>

@@ -22,7 +22,6 @@ public class MovieTrendBO {
 	
 	@Autowired
 	private MovieRepository movieRepository;
-	
 
     LocalDateTime dateTime = LocalDateTime.now();
 

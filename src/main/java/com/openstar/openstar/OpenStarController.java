@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.openstar.movie.Entity.MoviesTrendEntity;
+import com.openstar.movie.Entity.PersonResult;
 import com.openstar.movie.Entity.TvTrendEntity;
 import com.openstar.movie.repository.MovieRepository;
 import com.openstar.movie.repository.TvRepository;
@@ -48,10 +49,23 @@ public class OpenStarController {
 	
 	@GetMapping("/search")
 	// url: http://localhost/openstar/search
-	public String searchView(Model model) {
+	public String search(Model model) {
 		
 		model.addAttribute("viewName", "openstar/search");
 		return "template/layout";
 	}
+	
+//	@GetMapping("/search-view")
+//	// url: http://localhost/openstar/search-view
+//	public String searchView(Model model) {
+//		
+//		List<PersonResult> personResultList = postSearchInfo();
+//		
+//		model.addAttribute("personResults", personResults);
+//		model.addAttribute("viewName", "openstar/searchView");
+//		return "template/layout";
+//	}
+	
+	
 	
 }
