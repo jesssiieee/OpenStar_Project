@@ -7,19 +7,19 @@ import lombok.Data;
 @Data
 public class KnownFor {
 	
-    private boolean adult;
-    private String backdropPath;
+//    private boolean adult;
+//    private String backdropPath;
     private int id;
-    private String name;
+//    private String name;
     private String originalName;
     private String overview;
     private String posterPath;
-    private String mediaType;
-    private JsonArray genreIds;
-    private double popularity;
-    private String firstAirDate;
+//    private String mediaType;
+//    private JsonArray genreIds;
+//    private double popularity;
+//    private String firstAirDate;
     private double voteAverage;
-    private int voteCount;
-    private JsonArray originCountry;
+//    private int voteCount;
+//    private JsonArray originCountry;
 
 }

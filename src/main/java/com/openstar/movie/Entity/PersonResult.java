@@ -10,11 +10,11 @@ import lombok.Getter;
 @Getter
 public class PersonResult {
     private int id;
-    private boolean adult;
-    private int gender;
-    private String name;
+//    private boolean adult;
+//    private int gender;
+//    private String name;
     private String originalName;
-    private double popularity;
-    private String profilePath;
+//    private double popularity;
+//    private String profilePath;
     private List<Map<String,Object>> knownFor;
 }

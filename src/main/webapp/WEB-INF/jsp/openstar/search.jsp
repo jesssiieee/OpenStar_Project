@@ -30,10 +30,11 @@
 					type: "GET"
 					, url: "/post/post-search/" + encodeURIComponent(searchActorName)
 					, success: function(result) {
-						location.href="/openstar/search-view";
+						 location.href = "/openstar/search-view/" + encodeURIComponent(searchActorName);
 					}
 					, error: function(error) {
-						console.error(error);
+						console.log(error);
+						alert("검색에 실패하였습니다.");
 					}
 					
 				});

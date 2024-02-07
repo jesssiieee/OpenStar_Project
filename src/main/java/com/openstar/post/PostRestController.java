@@ -1,64 +1,47 @@
 package com.openstar.post;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.openstar.movie.Entity.KnownFor;
 import com.openstar.movie.Entity.PersonResult;
 import com.openstar.movie.bo.PersonBO;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 @Controller
 @RequestMapping("/post")
-
 public class PostRestController {
 
 	@Autowired
 	private PersonBO personBO;
 
-	public static final String KEY = "b250b43bc815002de64903f4433d25bd";
 
 	// url : http://localhost/post/post-search
 	@ResponseBody
 	@GetMapping("/post-search/{searchActorName}")
-	public List<PersonResult> postSearchInfo(@PathVariable(name = "searchActorName") String searchActorName, Model model)
-			throws IOException {
+	public List<PersonResult> postSearch(@PathVariable(name = "searchActorName") String searchActorName)
+			throws UnsupportedEncodingException, IOException {
 
-		String result = "";
-		List<PersonResult> personResults = null;
+		List<PersonResult> parsePersonResult = personBO.parseJson(searchActorName);
 
-		String apiURL = "https://api.themoviedb.org/3/search/person?api_key=" + KEY + "&query=" + searchActorName;
+        if (parsePersonResult != null) { // parsePersonResult가 null이 아닌 경우 = 성공
+            // 성공을 나타내는 코드와 메시지를 반환할 필요가 없으므로 따로 처리하지 않음
+        } else { // parsePersonResult가 null인 경우 = 실패
+            // 실패를 나타내는 코드와 메시지를 반환할 필요가 없으므로 따로 처리하지 않음
+        }
 
-		try {
-			URL url = new URL(apiURL);
+		return parsePersonResult;
 
-			BufferedReader bf;
-			bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-
-			result = bf.readLine();
-
-			personResults = personBO.parseJson(result);
-
-//			model.addAttribute("personResults", personResults);
-
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-
-		return personResults;
-		
 	}
-	
 
 }
