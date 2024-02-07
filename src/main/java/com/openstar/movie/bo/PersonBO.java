@@ -55,6 +55,7 @@ public class PersonBO {
                 // Set common properties
                 personResult.setId(personObject.getAsJsonPrimitive("id").getAsInt());
                 personResult.setOriginalName(personObject.getAsJsonPrimitive("original_name").getAsString());
+                personResult.setProfilePath(ImgUrl + personObject.getAsJsonPrimitive("profile_path").getAsString().replaceAll(match, ""));
 
                 // Set known_for list
                 JsonArray knownForArray = personObject.getAsJsonArray("known_for");
@@ -72,6 +73,11 @@ public class PersonBO {
                     }
                     knownForMap.put("overview", knownForObject.getAsJsonPrimitive("overview").getAsString());
                     knownForMap.put("posterPath", ImgUrl + knownForObject.getAsJsonPrimitive("poster_path").getAsString().replaceAll(match, ""));
+                    if (knownForObject.has("first_air_date")) {
+                        knownForMap.put("firstAirDate", knownForObject.getAsJsonPrimitive("first_air_date").getAsString());
+                    } else if (knownForObject.has("release_date")) {
+                        knownForMap.put("firstAirDate", knownForObject.getAsJsonPrimitive("release_date").getAsString());
+                    }
                     knownForMap.put("voteAverage", knownForObject.getAsJsonPrimitive("vote_average").getAsDouble());
 
                     knownForList.add(knownForMap);

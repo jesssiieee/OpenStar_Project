@@ -15,6 +15,6 @@ public class PersonResult {
 //    private String name;
     private String originalName;
 //    private double popularity;
-//    private String profilePath;
+    private String profilePath;
     private List<Map<String,Object>> knownFor;
 }
