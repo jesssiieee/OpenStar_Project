@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.openstar.movie.Entity.MoviesTrendEntity;
 import com.openstar.movie.Entity.PersonResult;
@@ -74,6 +75,19 @@ public class OpenStarController {
 		List<PersonResult> personResultList = postRestController.postSearch(searchActorName);
 		model.addAttribute("personResultList", personResultList);
 		model.addAttribute("viewName", "openstar/searchView");
+		return "template/layout";
+	}
+	
+	@GetMapping("/search-view/detail/{searchActorName}")
+//	 url: http://localhost/openstar/search-view/detail
+	public String detailSearchView(
+			@PathVariable(name = "searchActorName") String searchActorName
+			,@RequestParam(name = "contentId", required = false) String contentId
+			,Model model) throws UnsupportedEncodingException, IOException {
+		List<PersonResult> personResultList = postRestController.postSearch(searchActorName);
+		model.addAttribute("personResultList", personResultList);
+	    model.addAttribute("contentId", contentId);
+		model.addAttribute("viewName", "openstar/detailContentsView");
 		return "template/layout";
 	}
 

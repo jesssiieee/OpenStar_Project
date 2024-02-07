@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +30,17 @@ public class PersonBO {
     public List<PersonResult> parseJson(@PathVariable(name = "searchActorName") String searchActorName) throws UnsupportedEncodingException, IOException {
     	
 		String result = "";
+		String apiURL = "";
         List<PersonResult> personResults = new ArrayList<>();
         
-		String apiURL = "https://api.themoviedb.org/3/search/person?api_key=" + KEY + "&query=" + searchActorName;
+        char firstChar = searchActorName.charAt(0);
+        if ((firstChar >= '가' && firstChar <= '힣') || (firstChar >= 'ㄱ' && firstChar <= 'ㅎ')) {
+        	apiURL = "https://api.themoviedb.org/3/search/person?api_key=" + KEY + "&query=" + searchActorName;
+        }   else if ((firstChar >= 'a' && firstChar <= 'z') || (firstChar >= 'A' && firstChar <= 'Z')) {
+        	searchActorName = URLEncoder.encode(searchActorName, "UTF-8");
+        	apiURL = "https://api.themoviedb.org/3/search/person?api_key=" + KEY + "&query=" + searchActorName;
+        } 
+        
         String ImgUrl = "https://image.tmdb.org/t/p/w200";
         String match = "[\"]";
 
