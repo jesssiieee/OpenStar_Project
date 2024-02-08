@@ -25,7 +25,6 @@ public class PostRestController {
 	@Autowired
 	private PersonBO personBO;
 
-
 	// url : http://localhost/post/post-search
 	@ResponseBody
 	@GetMapping("/post-search/{searchActorName}")

@@ -14,6 +14,7 @@ public class PersonResult {
 //    private int gender;
 //    private String name;
     private String originalName;
+    private String overView;
 //    private double popularity;
     private String profilePath;
     private List<Map<String,Object>> knownFor;
