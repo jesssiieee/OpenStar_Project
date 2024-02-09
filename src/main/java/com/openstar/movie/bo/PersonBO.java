@@ -27,18 +27,18 @@ public class PersonBO {
 	
 	public static final String KEY = "b250b43bc815002de64903f4433d25bd";
 
-    public List<PersonResult> parseJson(@PathVariable(name = "searchActorName") String searchActorName) throws UnsupportedEncodingException, IOException {
+    public List<PersonResult> parseJson(@PathVariable(name = "searchKeyword") String searchKeyword) throws UnsupportedEncodingException, IOException {
     	
 		String result = "";
 		String apiURL = "";
         List<PersonResult> personResults = new ArrayList<>();
         
-        char firstChar = searchActorName.charAt(0);
+        char firstChar = searchKeyword.charAt(0);
         if ((firstChar >= '가' && firstChar <= '힣') || (firstChar >= 'ㄱ' && firstChar <= 'ㅎ')) {
-        	apiURL = "https://api.themoviedb.org/3/search/person?api_key=" + KEY + "&query=" + searchActorName;
+        	apiURL = "https://api.themoviedb.org/3/search/person?api_key=" + KEY + "&query=" + searchKeyword;
         }   else if ((firstChar >= 'a' && firstChar <= 'z') || (firstChar >= 'A' && firstChar <= 'Z')) {
-        	searchActorName = URLEncoder.encode(searchActorName, "UTF-8");
-        	apiURL = "https://api.themoviedb.org/3/search/person?api_key=" + KEY + "&query=" + searchActorName;
+        	searchKeyword = URLEncoder.encode(searchKeyword, "UTF-8");
+        	apiURL = "https://api.themoviedb.org/3/search/person?api_key=" + KEY + "&query=" + searchKeyword;
         } 
         
         String ImgUrl = "https://image.tmdb.org/t/p/w200";

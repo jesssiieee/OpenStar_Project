@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.openstar.movie.Entity.MoviesTrendEntity;
+import com.openstar.movie.Entity.MultiEntity;
 import com.openstar.movie.Entity.PersonResult;
 import com.openstar.movie.Entity.TvTrendEntity;
 import com.openstar.movie.bo.PersonBO;
@@ -67,25 +68,38 @@ public class OpenStarController {
 		return "template/layout";
 	}
 
-	@GetMapping("/search-view/{searchActorName}")
+	@GetMapping("/search-view/{searchKeyword}")
 //	 url: http://localhost/openstar/search-view
 	public String searchView(
-			@PathVariable(name = "searchActorName") String searchActorName
+			@PathVariable(name = "searchKeyword") String searchKeyword
 			,Model model) throws UnsupportedEncodingException, IOException {
-		List<PersonResult> personResultList = postRestController.postSearch(searchActorName);
+		
+		List<MultiEntity> multiResultList = null;
+		List<PersonResult> personResultList = null;
+		
+		if (searchKeyword.length() > 3) {
+			multiResultList = (List<MultiEntity>) postRestController.postSearchAll(searchKeyword);
+		} else {
+			personResultList = (List<PersonResult>) postRestController.postSearch(searchKeyword);
+		}
+		
+		
 		model.addAttribute("personResultList", personResultList);
+		model.addAttribute("multiResultList", multiResultList);
 		model.addAttribute("viewName", "openstar/searchView");
 		return "template/layout";
 	}
 	
-	@GetMapping("/search-view/detail/{searchActorName}")
+	@GetMapping("/search-view/detail/{searchKeyword}")
 //	 url: http://localhost/openstar/search-view/detail
 	public String detailSearchView(
-			@PathVariable(name = "searchActorName") String searchActorName
+			@PathVariable(name = "searchKeyword") String searchKeyword
 			,@RequestParam(name = "contentId", required = false) String contentId
 			,Model model) throws UnsupportedEncodingException, IOException {
-		List<PersonResult> personResultList = postRestController.postSearch(searchActorName);
+		List<PersonResult> personResultList = (List<PersonResult>) postRestController.postSearch(searchKeyword);
+		List<MultiEntity> multiResultList = postRestController.postSearchAll(searchKeyword);
 		model.addAttribute("personResultList", personResultList);
+		model.addAttribute("multiResultList", multiResultList);
 	    model.addAttribute("contentId", contentId);
 		model.addAttribute("viewName", "openstar/detailContentsView");
 		return "template/layout";

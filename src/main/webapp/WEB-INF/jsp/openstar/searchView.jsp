@@ -4,33 +4,71 @@
 
 <div class="d-flex">
 
-	<div style="width: 20%;" class="contents border-right-info">
-		<c:forEach var="personResult" items="${personResultList}">
-			<div class="inline-item">
-				<img src="${personResult.profilePath}" alt="Poster"
-					class="poster-img" style="width: 200px; height: 288px;">
-				<h4 class="mt-3 ml-5">${personResult.originalName}</h4>
+	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
+	<c:choose>
+		<c:when test="${not empty personResultList}">
+			<!-- personResultList에 대한 forEach -->
+			<div style="width: 20%;" class="contents border-right-info">
+				<c:forEach var="personResult" items="${personResultList}">
+					<div class="inline-item">
+						<img src="${personResult.profilePath}" alt="Poster"
+							class="poster-img" style="width: 200px; height: 288px;">
+						<h4 class="mt-3 ml-5">${personResult.originalName}</h4>
+					</div>
+				</c:forEach>
 			</div>
-	</div>
 
-	<div style="width: 80%;" class="contents d-flex">
-		<c:forEach var="knownFor" items="${personResult.knownFor}">
-			<div class="inline-item">
-
-				<a
-					href="http://localhost/openstar/search-view/detail/${personResult.originalName }">
-					<img src="${knownFor.posterPath}" alt="Poster" class="poster-img"
-					style="width: 200px; height: 288px;"
-					data-content-id="${knownFor.id }"
-					data-original-name="${personResult.originalName}">
-				</a>
-				<h5 class="mt-3">작품 제목: ${knownFor.name}</h5>
-
+			<div style="width: 80%;" class="contents d-flex">
+				<c:forEach var="personResult" items="${personResultList}">
+					<c:forEach var="knownFor" items="${personResult.knownFor}">
+						<div class="inline-item">
+							<a
+								href="http://localhost/openstar/search-view/detail/${personResult.originalName}">
+								<img src="${knownFor.posterPath}" alt="Poster"
+								class="poster-img" style="width: 200px; height: 288px;"
+								data-content-id="${knownFor.id}"
+								data-original-name="${personResult.originalName}">
+							</a>
+							<h5 class="mt-3">작품 제목: ${knownFor.name}</h5>
+						</div>
+					</c:forEach>
+				</c:forEach>
 			</div>
-		</c:forEach>
-	</div>
 
-	</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<!-- multiResultList에 대한 forEach -->
+			<div style="width: 20%;" class="contents border-right-info">
+				<c:forEach var="multiResult" items="${multiResultList}">
+					<div class="inline-item">
+						<img src="${multiResult.posterPath}" alt="Poster"
+							class="poster-img" style="width: 200px; height: 288px;">
+						<h4 class="mt-3 ml-3">${multiResult.originalName}</h4>
+					</div>
+			</div>
+
+			<div style="width: 80%;" class="contents d-flex">
+				<div style="height: 400px;" class="">
+					<!-- 오른쪽 80% 중 중간 1/3에 해당하는 내용 -->
+					<div style="width: 1000px; hieght: 300px;"
+						class="ml-5 mt-5 border-bottom-black">
+						<h5>상세내용: ${multiResult.overView}</h5>
+					</div>
+					<div style="width: 1000px; hieght: 300px;"
+						class="ml-5 mt-5 border-bottom-black">
+						<h5>작품 공개 날짜: ${multiResult.firstAirDate }</h5>
+					</div>
+				</div>
+
+				<div style="height: 300px;">
+					<!-- 오른쪽 80% 중 하단 1/3에 해당하는 내용 -->
+				</div>
+			</div>
+			</c:forEach>
+		</c:otherwise>
+	</c:choose>
+
 </div>
 
 <script>
