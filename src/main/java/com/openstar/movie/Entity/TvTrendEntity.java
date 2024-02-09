@@ -10,11 +10,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString
+@Data
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
 @Getter
@@ -41,5 +43,6 @@ public class TvTrendEntity {
     private LocalDate releaseDate; // 개봉일 , first_air_date
 
     private String title; // 제목, name
+    
 
 }

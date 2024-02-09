@@ -9,9 +9,9 @@
 	<div class="flex-container">
 		<c:forEach items="${movieTrendList}" var="mTL">
 			<div class="flex-item">
-				<a href="#"> <img src="${mTL.posterPath}" alt="Poster"
-					class="poster-img" style="width: 200px; height: 288px;">
-				</a>
+				 <img src="${mTL.posterPath}" alt="Poster"
+					class="poster-img" style="width: 200px; height: 288px;" data-movie-id="${mTL.movieId}">
+				
 			</div>
 		</c:forEach>
 	</div>
@@ -33,3 +33,28 @@
 	</div>
 	
 </div>
+
+<script>
+	$(document).ready(function () {
+		$(".poster-img").on('click', function () {
+			// alert("클릭");
+			let movieId = $(this).data("movie-id");
+			// alert(movieId);
+			if (movieId != '') {
+				$.ajax({
+					type: "GET"
+					, success: function(data) {
+						location.href = "/openstar/search-view/trend/" + encodeURIComponent(movieId)
+					}
+					, error: function(error) {
+						consol.log(error);
+						alert("영화 정보를 불러오는데 실패하셨습니다.");
+					}
+					
+				}); // ajax
+			}
+			
+		}); // poster_img
+		
+	}); //ready
+</script>

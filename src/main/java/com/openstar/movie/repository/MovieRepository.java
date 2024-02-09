@@ -7,6 +7,6 @@ import com.openstar.movie.Entity.MoviesTrendEntity;
 public interface MovieRepository extends JpaRepository<MoviesTrendEntity, Integer> {
 	
 	public MoviesTrendEntity findByMovieId(int movieId);
-
+	
 	
 }

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.openstar.movie.Entity.MoviesTrendEntity;
 import com.openstar.movie.Entity.MultiEntity;
 import com.openstar.movie.Entity.PersonResult;
 import com.openstar.movie.bo.MultiBO;
@@ -28,6 +29,7 @@ public class PostRestController {
 	private MultiBO multiBO;
 
 	// url : http://localhost/post/post-search
+	// 배우 이름 검색 -> 필모그래피
 	@ResponseBody
 	@GetMapping("/post-search/{searchKeyword}")
     public List<PersonResult> postSearch(@PathVariable(name = "searchKeyword") String searchKeyword)
@@ -47,6 +49,7 @@ public class PostRestController {
 	
 	@ResponseBody
 	@GetMapping("/post-search-all/{searchKeyword}")
+	// 필모그래피 -> 해당 작품 상세 점보
     public List<MultiEntity> postSearchAll(@PathVariable(name = "searchKeyword") String searchKeyword)
             throws UnsupportedEncodingException, IOException {
 		
@@ -61,5 +64,12 @@ public class PostRestController {
         return parseMultiResult;
 
 	}
+	
+//	@ResponseBody
+//	@GetMapping("/post-search-trendMovie/{movieId}")
+//	public List<MoviesTrendEntity> postSearchTrendMovie(@PathVariable(name="movieId") int movieId) {
+//		List<MoviesTrendEntity> parseSearchTrendMovie = null;
+//		return parseSearchTrendMovie;
+//	}
 
 }

@@ -7,6 +7,7 @@
 	<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 	<c:choose>
+		<%-- 배우검색 - 필모그래피 리스트 --%>
 		<c:when test="${not empty personResultList}">
 			<!-- personResultList에 대한 forEach -->
 			<div style="width: 20%;" class="contents border-right-info">
@@ -37,6 +38,8 @@
 			</div>
 
 		</c:when>
+		
+		<%-- 작품검색 - 작품상세정보 --%>
 		<c:otherwise>
 			<!-- multiResultList에 대한 forEach -->
 			<div style="width: 20%;" class="contents border-right-info">
@@ -50,22 +53,36 @@
 
 			<div style="width: 80%;" class="contents d-flex">
 				<div style="height: 400px;" class="">
+					
+					<%-- 좋아요, 북마크 --%>
+					<div class="float-right mb-5">
+						<a href="#"><img style="height: 35px; width: 35px;" class="" src="/static/image/noneheart.png"></a>
+						<a href="#"><img style="height: 50px; width: 50px;" class="ml-2" src="/static/image/nonebookmark.png"></a>
+					</div>
+						
 					<!-- 오른쪽 80% 중 중간 1/3에 해당하는 내용 -->
 					<div style="width: 1000px; hieght: 300px;"
 						class="ml-5 mt-5 border-bottom-black">
 						<h5>상세내용: ${multiResult.overView}</h5>
 					</div>
+
 					<div style="width: 1000px; hieght: 300px;"
 						class="ml-5 mt-5 border-bottom-black">
 						<h5>작품 공개 날짜: ${multiResult.firstAirDate }</h5>
 					</div>
-				</div>
 
-				<div style="height: 300px;">
-					<!-- 오른쪽 80% 중 하단 1/3에 해당하는 내용 -->
+					<div style="width: 1000px; hieght: 300px;"
+						class="ml-5 mt-5">
+						<!-- 오른쪽 80% 중 하단 1/3에 해당하는 내용 -->
+						<div class="float-right">
+							<a href="#"><button class="btn btn-primary" id="community">커뮤니티</button></a>
+						</div>
+					</div>
 				</div>
+				</c:forEach>
+
 			</div>
-			</c:forEach>
+
 		</c:otherwise>
 	</c:choose>
 

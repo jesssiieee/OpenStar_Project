@@ -70,38 +70,46 @@ public class OpenStarController {
 
 	@GetMapping("/search-view/{searchKeyword}")
 //	 url: http://localhost/openstar/search-view
-	public String searchView(
-			@PathVariable(name = "searchKeyword") String searchKeyword
-			,Model model) throws UnsupportedEncodingException, IOException {
-		
+	public String searchView(@PathVariable(name = "searchKeyword") String searchKeyword, Model model)
+			throws UnsupportedEncodingException, IOException {
+
 		List<MultiEntity> multiResultList = null;
 		List<PersonResult> personResultList = null;
-		
+
 		if (searchKeyword.length() > 3) {
 			multiResultList = (List<MultiEntity>) postRestController.postSearchAll(searchKeyword);
 		} else {
 			personResultList = (List<PersonResult>) postRestController.postSearch(searchKeyword);
 		}
-		
-		
+
 		model.addAttribute("personResultList", personResultList);
 		model.addAttribute("multiResultList", multiResultList);
 		model.addAttribute("viewName", "openstar/searchView");
 		return "template/layout";
 	}
-	
+
 	@GetMapping("/search-view/detail/{searchKeyword}")
 //	 url: http://localhost/openstar/search-view/detail
-	public String detailSearchView(
-			@PathVariable(name = "searchKeyword") String searchKeyword
-			,@RequestParam(name = "contentId", required = false) String contentId
-			,Model model) throws UnsupportedEncodingException, IOException {
+	public String detailSearchView(@PathVariable(name = "searchKeyword") String searchKeyword,
+			@RequestParam(name = "contentId", required = false) String contentId, Model model)
+			throws UnsupportedEncodingException, IOException {
 		List<PersonResult> personResultList = (List<PersonResult>) postRestController.postSearch(searchKeyword);
 		List<MultiEntity> multiResultList = postRestController.postSearchAll(searchKeyword);
 		model.addAttribute("personResultList", personResultList);
 		model.addAttribute("multiResultList", multiResultList);
-	    model.addAttribute("contentId", contentId);
+		model.addAttribute("contentId", contentId);
 		model.addAttribute("viewName", "openstar/detailContentsView");
+		return "template/layout";
+	}
+	
+	@GetMapping("/search-view/trend/{movieId}")
+	public String trendMovieSearchView(
+			@PathVariable(name = "movieId") String movieId
+			,Model model) {
+		
+		
+		
+		model.addAttribute("viewName", "openstar/searchTrendMovieView");
 		return "template/layout";
 	}
 

@@ -8,7 +8,6 @@ int contentId = Integer.parseInt(contentIdStr);
 %>
 
 <div class="d-flex">
-${KnownFor.voteAverage }
 	<c:forEach var="personResult" items="${personResultList}">
 		<c:forEach var="knownFor" items="${personResult.knownFor}">
 
@@ -29,8 +28,8 @@ ${KnownFor.voteAverage }
 							<h2 class="ml-5 mt-3" style="color: red;">평점: ${knownFor.voteAverage}</h2>
 						</div>
 						<div class="mr-5 mt-3">
-							<a href="#"><img style="height: 35px; width: 35px;" class="" src="/static/image/heart.png"></a>
-							<a href="#"><img style="height: 35px; width: 35px;" class="ml-2" src="/static/image/bookmark.png"></a>
+							<a href="#"><img style="height: 35px; width: 35px;" class="" src="/static/image/noneheart.png"></a>
+							<a href="#"><img style="height: 50px; width: 50px;" class="ml-2" src="/static/image/nonebookmark.png"></a>
 						</div>
 					</div>
 					
