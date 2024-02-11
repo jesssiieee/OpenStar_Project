@@ -2,8 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
  
- <mapper namespace="com.openstar.post.mappers.PostMapper">
+ <mapper namespace="com.openstar.post.mapper.PostMapper">
  
-
+	 	<insert id="insertPost" parameterType="map">
+ 	
+ 		INSERT INTO	`post`
+ 			(
+	 			`userId`
+				, `content`
+				, `imagePath`
+				, `createdAt`
+				, `updatedAt`
+			)
+ 		VALUES
+ 			(
+ 				#{userId}
+ 				, #{content}
+ 				, #{imagePath}
+ 				, NOW()
+ 				, NOW()
+ 			)
+ 		
+ 	</insert>
  
  </mapper>

@@ -6,7 +6,7 @@
 
 	<%-- logo --%>
 	<div>
-		<h1>OpenStar</h1>
+		<a href="http://localhost/openstar/first-view"><h1>OpenStar</h1></a>
 	</div>
 
 	<%-- 로그인 정보 --%>
@@ -18,7 +18,7 @@
 		</c:if>
 		<%-- 비로그인 시 --%>
 		<c:if test="${empty userId }">
-			<a href="/user/sign-in view">로그인</a>
+			<a href="/user/sign-in-view">로그인</a>
 		</c:if>
 	</div>
 

@@ -6,4 +6,6 @@ import com.openstar.movie.Entity.TvTrendEntity;
 
 public interface TvRepository extends JpaRepository<TvTrendEntity, Integer> {
 
+	public TvTrendEntity findByMovieId(int movieId);
+	
 }

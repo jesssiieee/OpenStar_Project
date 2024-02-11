@@ -20,7 +20,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.openstar.movie.Entity.MovieTrend;
 import com.openstar.movie.Entity.MoviesTrendEntity;
-import com.openstar.movie.Entity.TvTrendEntity;
 import com.openstar.movie.repository.MovieRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -68,53 +67,40 @@ public class MovieTrendBO {
         return "ok";
     }
     
-    public List<MovieTrend> parseMovieTrendJson(@PathVariable(name = "movieId") int movieId) throws UnsupportedEncodingException, IOException {
+    public MovieTrend parseMovieTrendJson(@PathVariable(name = "movieId") int movieId) throws UnsupportedEncodingException, IOException {
     	
     	// movieId select
     	MoviesTrendEntity dbMovieId = movieRepository.findByMovieId(movieId);
+    	int dbSearchMovieId = dbMovieId.getMovieId();
     	
-    	String result = "";
-		String apiURL = "";
-        List<MovieTrend> personResults = new ArrayList<>();
-        
-        apiURL = "https://api.themoviedb.org/3/movie/" + dbMovieId + "?api_key=" + KEY;
-        
+        String apiURL = "https://api.themoviedb.org/3/movie/" + movieId + "?api_key=" + KEY;
         String ImgUrl = "https://image.tmdb.org/t/p/w200";
         String match = "[\"]";
-
-		try {
-			URL url = new URL(apiURL);
-			BufferedReader bf;
-			bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
-			result = bf.readLine();
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
+        String result = "";
+    	
 
         try {
-            JsonObject jsonObject = new com.google.gson.JsonParser().parse(result).getAsJsonObject();
-            JsonArray results = jsonObject.getAsJsonArray("results");
-
-            for (int i = 0; i < 1; i++) {
-                JsonObject personObject = results.get(i).getAsJsonObject();
-                MovieTrend personResult = new MovieTrend();
-
-                // Set common properties
-                personResult.setId(personObject.getAsJsonPrimitive("id").getAsInt());
-                personResult.setOriginalTitle(personObject.getAsJsonPrimitive("original_title").getAsString());
-                personResult.setPosterPath(ImgUrl + personObject.getAsJsonPrimitive("poster_path").getAsString().replaceAll(match, ""));
-
-                
-                
-                personResults.add(personResult);
-                
-                
-            }
-        } catch (Exception e) {
-            log.error("Error parsing JSON", e);
+            URL url = new URL(apiURL);
+            BufferedReader bf = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+            result = bf.readLine();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
+
+        JsonObject jsonObject = new JsonParser().parse(result).getAsJsonObject();
         
-        return personResults;
+        MovieTrend movieTrendResult = new MovieTrend();
+        movieTrendResult.setId(jsonObject.getAsJsonPrimitive("id").getAsInt());
+        movieTrendResult.setOriginalTitle(jsonObject.getAsJsonPrimitive("original_title").getAsString());
+        movieTrendResult.setPosterPath(ImgUrl + jsonObject.getAsJsonPrimitive("poster_path").getAsString().replaceAll(match, ""));
+        movieTrendResult.setOverview(jsonObject.getAsJsonPrimitive("overview").getAsString());
+        movieTrendResult.setReleaseDate(jsonObject.getAsJsonPrimitive("release_date").getAsString());
+        movieTrendResult.setPopularity(jsonObject.getAsJsonPrimitive("popularity").getAsDouble());
+        movieTrendResult.setVoteAverage(jsonObject.getAsJsonPrimitive("vote_average").getAsDouble());
+        movieTrendResult.setRevenue(jsonObject.getAsJsonPrimitive("revenue").getAsInt());
+        movieTrendResult.setRuntime(jsonObject.getAsJsonPrimitive("runtime").getAsInt());
+
+        return movieTrendResult;
     }
     	
 }

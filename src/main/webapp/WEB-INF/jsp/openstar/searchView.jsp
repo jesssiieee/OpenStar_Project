@@ -75,7 +75,7 @@
 						class="ml-5 mt-5">
 						<!-- 오른쪽 80% 중 하단 1/3에 해당하는 내용 -->
 						<div class="float-right">
-							<a href="#"><button class="btn btn-primary" id="community">커뮤니티</button></a>
+							<a href="http://localhost/post/post-community-view"><button class="btn btn-primary" id="community">커뮤니티</button></a>
 						</div>
 					</div>
 				</div>

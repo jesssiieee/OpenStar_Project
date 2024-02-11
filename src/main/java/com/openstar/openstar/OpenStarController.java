@@ -12,11 +12,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.openstar.movie.Entity.MovieTrend;
 import com.openstar.movie.Entity.MoviesTrendEntity;
 import com.openstar.movie.Entity.MultiEntity;
 import com.openstar.movie.Entity.PersonResult;
+import com.openstar.movie.Entity.TvTrend;
 import com.openstar.movie.Entity.TvTrendEntity;
+import com.openstar.movie.bo.MovieTrendBO;
 import com.openstar.movie.bo.PersonBO;
+import com.openstar.movie.bo.TvTrendBO;
 import com.openstar.movie.repository.MovieRepository;
 import com.openstar.movie.repository.TvRepository;
 import com.openstar.post.PostRestController;
@@ -36,6 +40,12 @@ public class OpenStarController {
 
 	@Autowired
 	private PostRestController postRestController;
+	
+	@Autowired
+	private MovieTrendBO movieTrendBO;
+	
+	@Autowired
+	private TvTrendBO trTrendBO;
 
 	@GetMapping("/first-view")
 	// url: http://localhost/openstar/first-view
@@ -104,12 +114,25 @@ public class OpenStarController {
 	
 	@GetMapping("/search-view/trend/{movieId}")
 	public String trendMovieSearchView(
-			@PathVariable(name = "movieId") String movieId
-			,Model model) {
+			@PathVariable(name = "movieId") int movieId
+			,Model model) throws UnsupportedEncodingException, IOException {
 		
+		MovieTrend movieTrendResultList = movieTrendBO.parseMovieTrendJson(movieId);
 		
-		
+		model.addAttribute("movieTrendResultList", movieTrendResultList);
 		model.addAttribute("viewName", "openstar/searchTrendMovieView");
+		return "template/layout";
+	}
+	
+	@GetMapping("/search-view/trendTv/{tvId}")
+	public String trendTvSearchView(
+			@PathVariable(name = "tvId") int tvId
+			,Model model) throws UnsupportedEncodingException, IOException {
+		
+		TvTrend tvTrendResultList = trTrendBO.parseTvTrendJson(tvId);
+		
+		model.addAttribute("tvTrendResultList", tvTrendResultList);
+		model.addAttribute("viewName", "openstar/searchTrendTvView");
 		return "template/layout";
 	}
 

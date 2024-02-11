@@ -9,9 +9,9 @@
 	<%-- 왼쪽 20% --%>
 	<div style="width: 20%;" class="contents border-right-info">
 		<div class="inline-item">
-			<img src="${movieTrendResultList.posterPath}" alt="Poster"
+			<img src="${tvTrendResultList.posterPath}" alt="Poster"
 				class="poster-img" style="width: 200px; height: 288px;">
-			<h4 class="mt-3 ml-5">${movieTrendResultList.originalTitle}</h4>
+			<h4 class="mt-3 ml-5">${tvTrendResultList.originalName}</h4>
 		</div>
 
 	</div>
@@ -22,20 +22,18 @@
 
 			<div style="width: 1000px; hieght: 300px;"
 				class="ml-5 mt-5 border-bottom-black">
-				<h5>상세내용: ${movieTrendResultList.overview}</h5>
+				<h5>상세내용: ${tvTrendResultList.overview}</h5>
 			</div>
 
 			<div style="width: 1000px; hieght: 300px;"
 				class="ml-5 mt-5 border-bottom-black">
-				<h5>작품 공개 날짜: ${movieTrendResultList.releaseDate }</h5>
+				<h5>작품 공개 날짜: ${tvTrendResultList.releaseDate }</h5>
 			</div>
 
 			<div style="width: 1000px; hieght: 300px;" class="ml-5 mt-5">
 				<!-- 오른쪽 80% 중 하단 1/3에 해당하는 내용 -->
-				<h5>인기도: ${movieTrendResultList.popularity }</h5>
-				<h5>평점: ${movieTrendResultList.voteAverage }</h5>
-				<h5>총 수입: ${movieTrendResultList.revenue }</h5>
-				<h5>상영시간: ${movieTrendResultList.runtime }</h5>
+				<h5>인기도: ${tvTrendResultList.popularity }</h5>
+				<h5>평점: ${tvTrendResultList.voteAverage }</h5>
 				<div class="float-right">
 					<a href="http://localhost/post/post-community-view"><button
 							class="btn btn-primary" id="community">커뮤니티</button></a>
@@ -45,3 +43,4 @@
 	</div>
 
 </div>
+>

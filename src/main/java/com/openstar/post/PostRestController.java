@@ -2,23 +2,29 @@ package com.openstar.post;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.openstar.movie.Entity.MoviesTrendEntity;
 import com.openstar.movie.Entity.MultiEntity;
 import com.openstar.movie.Entity.PersonResult;
 import com.openstar.movie.bo.MultiBO;
 import com.openstar.movie.bo.PersonBO;
+import com.openstar.post.bo.PostBO;
 
-@Controller
+import jakarta.servlet.http.HttpSession;
+
+@RestController
 @RequestMapping("/post")
 public class PostRestController {
 
@@ -27,6 +33,9 @@ public class PostRestController {
 	
 	@Autowired
 	private MultiBO multiBO;
+	
+	@Autowired
+	private PostBO postBO;
 
 	// url : http://localhost/post/post-search
 	// 배우 이름 검색 -> 필모그래피
@@ -65,11 +74,24 @@ public class PostRestController {
 
 	}
 	
-//	@ResponseBody
-//	@GetMapping("/post-search-trendMovie/{movieId}")
-//	public List<MoviesTrendEntity> postSearchTrendMovie(@PathVariable(name="movieId") int movieId) {
-//		List<MoviesTrendEntity> parseSearchTrendMovie = null;
-//		return parseSearchTrendMovie;
-//	}
+	@PostMapping("/create")
+	public Map<String, Object> create( 
+			@RequestParam("content") String content,
+			@RequestParam(value = "file", required = false) MultipartFile file,
+			HttpSession session ) {
+		
+		// 글쓴이 번호 - session에 있는 userId를 꺼낸다. (로그인한 사용자)
+		int userId = (int)session.getAttribute("userId");
+		String userLoginId = (String)session.getAttribute("userLoginId");
+		
+		// DB insert
+		postBO.addPost(userId, userLoginId, content, file);
+		
+		// 응답값 
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result;
+	}
 
 }
