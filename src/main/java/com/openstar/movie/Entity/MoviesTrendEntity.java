@@ -7,15 +7,15 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+@Data
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(force = true)
@@ -32,7 +32,7 @@ public class MoviesTrendEntity {
 	@Column(name="movieId")
 	private int movieId; // id
 	
-    private Double grade; // 평점, vote_average
+    private Double voteAverage; // 평점, vote_average
     
     private String overview; // 내용 요약
     
@@ -40,7 +40,7 @@ public class MoviesTrendEntity {
     private String posterPath; // 포스터 이미지, poster_path"
 
     @Column(name="releaseDate")
-    private LocalDate releaseDate; // 개봉일 , release_date
+    private String releaseDate; // 개봉일 , release_date
 
     private String title; // 제목, name
 	

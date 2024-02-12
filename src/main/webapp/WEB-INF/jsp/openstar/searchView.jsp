@@ -121,10 +121,10 @@
 				}
 			}); // click poster-img
 			
-			$.('#community').on('click', function(){
+/* 			$.('#community').on('click', function(){
 				alert("클릭");
 				
-			}); // community
+			}); */ // community
 			
 		}); // ready
 </script>

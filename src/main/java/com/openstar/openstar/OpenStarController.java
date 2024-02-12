@@ -19,6 +19,7 @@ import com.openstar.movie.Entity.PersonResult;
 import com.openstar.movie.Entity.TvTrend;
 import com.openstar.movie.Entity.TvTrendEntity;
 import com.openstar.movie.bo.MovieTrendBO;
+import com.openstar.movie.bo.MultiBO;
 import com.openstar.movie.bo.PersonBO;
 import com.openstar.movie.bo.TvTrendBO;
 import com.openstar.movie.repository.MovieRepository;
@@ -37,6 +38,9 @@ public class OpenStarController {
 
 	@Autowired
 	private PersonBO personBO;
+	
+	@Autowired
+	private MultiBO multiBO;
 
 	@Autowired
 	private PostRestController postRestController;
@@ -56,16 +60,21 @@ public class OpenStarController {
 
 	@GetMapping("/home-list-view")
 	// url: http://localhost/openstar/home-list-view
-	public String homeListView(Model model) {
+	public String homeListView(Model model) throws UnsupportedEncodingException, IOException {
 
 		// DB 조회 영화
-		List<MoviesTrendEntity> movieTrendList = movieRepository.findAll();
-
-		// DB 조회 tv
-		List<TvTrendEntity> tvTrendList = tvRepository.findAll();
-
-		model.addAttribute("movieTrendList", movieTrendList);
-		model.addAttribute("tvTrendList", tvTrendList);
+//		List<MoviesTrendEntity> movieTrendList = movieRepository.findAll();
+//
+//		// DB 조회 tv
+//		List<TvTrendEntity> tvTrendList = tvRepository.findAll();
+//
+//		model.addAttribute("movieTrendList", movieTrendList);
+//		model.addAttribute("tvTrendList", tvTrendList);
+		
+		List<MoviesTrendEntity> resultHomeMovieTrendList = movieTrendBO.parseHomeMovieTrendJson();
+		List<TvTrendEntity> resultHomeTvTrendList = trTrendBO.parseHomeTvTrendJson();
+		model.addAttribute("resultHomeMovieTrendList", resultHomeMovieTrendList);
+		model.addAttribute("resultHomeTvTrendList", resultHomeTvTrendList);
 		model.addAttribute("viewName", "openstar/home");
 		return "template/layout";
 	}
@@ -87,9 +96,9 @@ public class OpenStarController {
 		List<PersonResult> personResultList = null;
 
 		if (searchKeyword.length() > 3) {
-			multiResultList = (List<MultiEntity>) postRestController.postSearchAll(searchKeyword);
+			multiResultList = (List<MultiEntity>) multiBO.parseJsonMulti(searchKeyword);
 		} else {
-			personResultList = (List<PersonResult>) postRestController.postSearch(searchKeyword);
+			personResultList = (List<PersonResult>) personBO.parseJson(searchKeyword);
 		}
 
 		model.addAttribute("personResultList", personResultList);
@@ -100,11 +109,14 @@ public class OpenStarController {
 
 	@GetMapping("/search-view/detail/{searchKeyword}")
 //	 url: http://localhost/openstar/search-view/detail
-	public String detailSearchView(@PathVariable(name = "searchKeyword") String searchKeyword,
-			@RequestParam(name = "contentId", required = false) String contentId, Model model)
+	public String detailSearchView(
+			@PathVariable(name = "searchKeyword") String searchKeyword,
+			@RequestParam(name = "contentId", required = false) String contentId, 
+			Model model)
 			throws UnsupportedEncodingException, IOException {
+		
 		List<PersonResult> personResultList = (List<PersonResult>) postRestController.postSearch(searchKeyword);
-		List<MultiEntity> multiResultList = postRestController.postSearchAll(searchKeyword);
+		List<MultiEntity> multiResultList = multiBO.parseJsonMulti(searchKeyword);
 		model.addAttribute("personResultList", personResultList);
 		model.addAttribute("multiResultList", multiResultList);
 		model.addAttribute("contentId", contentId);

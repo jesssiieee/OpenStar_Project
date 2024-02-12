@@ -2,7 +2,9 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+
 <%
+// contentId를 request.getParameter() 메서드를 사용하여 가져옵니다.
 String contentIdStr = request.getParameter("contentId");
 int contentId = Integer.parseInt(contentIdStr);
 %>

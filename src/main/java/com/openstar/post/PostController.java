@@ -55,17 +55,17 @@ public class PostController {
 		return "template/layout";
 	}
 	
-	@GetMapping("/post-community-view")
-	// url: http://localhost/post/post-community-view
-	public String postCommunityView(
-			Model model
-	) throws UnsupportedEncodingException, IOException {
-		
-//		int multiId = multiBO.get
-		
-		model.addAttribute("viewName", "post/communityList");
-		return "template/layout";
-	}
+//	@GetMapping("/post-community-view")
+//	// url: http://localhost/post/post-community-view
+//	public String postCommunityView(
+//			Model model
+//	) throws UnsupportedEncodingException, IOException {
+//		
+////		int multiId = multiBO.get
+//		
+//		model.addAttribute("viewName", "post/communityList");
+//		return "template/layout";
+//	}
 	
 	@GetMapping("/post-review-view")
 	// url: http://localhost/post/post-review-view

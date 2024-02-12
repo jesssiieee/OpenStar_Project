@@ -32,7 +32,7 @@ public class TvTrendEntity {
 	@Column(name="movieId")
 	private int movieId; // id
 	
-    private Double grade; // 평점, vote_average
+    private Double voteAverage; // 평점, vote_average
     
     private String overview; // 내용 요약
     
@@ -40,7 +40,7 @@ public class TvTrendEntity {
     private String posterPath; // 포스터 이미지, poster_path"
 
     @Column(name="releaseDate")
-    private LocalDate releaseDate; // 개봉일 , first_air_date
+    private String releaseDate; // 개봉일 , first_air_date
 
     private String title; // 제목, name
     

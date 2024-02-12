@@ -7,7 +7,7 @@
 	<h1>이 주의 인기 순 / 영화</h1>
 	
 	<div class="flex-container">
-		<c:forEach items="${movieTrendList}" var="mTL">
+		<c:forEach items="${resultHomeMovieTrendList}" var="mTL">
 			<div class="flex-item">
 				 <img src="${mTL.posterPath}" alt="Poster"
 					class="poster-img" style="width: 200px; height: 288px;" data-movie-id="${mTL.movieId}">
@@ -23,7 +23,7 @@
 	<h1>이 주의 인기 순 / TV</h1>
 	
 	<div class="flex-container">
-		<c:forEach items="${tvTrendList}" var="tTL">
+		<c:forEach items="${resultHomeTvTrendList}" var="tTL">
 			<div class="flex-item">
 				<a href="#"> <img src="${tTL.posterPath}" alt="Poster"
 					class="poster-img" style="width: 200px; height: 288px;" data-tv-id="${tTL.movieId}">
