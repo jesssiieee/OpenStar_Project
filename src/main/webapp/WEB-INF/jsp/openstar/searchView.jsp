@@ -75,7 +75,9 @@
 						class="ml-5 mt-5">
 						<!-- 오른쪽 80% 중 하단 1/3에 해당하는 내용 -->
 						<div class="float-right">
-							<a href="http://localhost/post/post-community-view"><button class="btn btn-primary" id="community">커뮤니티</button></a>
+							<a href="http://localhost/post/post-community-view">
+								<button class="btn btn-primary" id="community" data-search-id=${multiResult.id }>커뮤니티</button>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -89,42 +91,42 @@
 </div>
 
 <script>
-	$(document)
-			.ready(
-					function() {
-						// 이미지 클릭 이벤트 핸들러
-						$('.poster-img')
-								.click(
-										function() {
-											let contentId = $(this).data(
-													'content-id');
-											let searchActorName = $(this).data(
-													'original-name');
-											// alert(contentId);
-											// alert(searchActorName);
+	$(document).ready(function() {
+		// 이미지 클릭 이벤트 핸들러
+		$('.poster-img').click(function() {
+			let contentId = $(this).data(
+					'content-id');
+			let searchActorName = $(this).data(
+					'original-name');
+			// alert(contentId);
+			// alert(searchActorName);
 
-											if (contentId != '') {
-												$
-														.ajax({
-															type : "GET",
-															success : function(
-																	result) {
-																location.href = "/openstar/search-view/detail/"
-																		+ encodeURIComponent(searchActorName)
-																		+ "?contentId="
-																		+ contentId;
-															},
-															error : function(
-																	error) {
-																console
-																		.log(error);
-																alert("검색에 실패하였습니다.");
-															}
-														}); // ajax
-											}
-
-										}); // click poster-img
-					}); // ready
+			if (contentId != '') {
+				$.ajax({
+						type : "GET",
+						success : function(
+								result) {
+							location.href = "/openstar/search-view/detail/"
+									+ encodeURIComponent(searchActorName)
+									+ "?contentId="
+									+ contentId;
+						},
+						error : function(
+								error) {
+							console
+									.log(error);
+							alert("검색에 실패하였습니다.");
+						}
+					}); // ajax
+				}
+			}); // click poster-img
+			
+			$.('#community').on('click', function(){
+				alert("클릭");
+				
+			}); // community
+			
+		}); // ready
 </script>
 
 
