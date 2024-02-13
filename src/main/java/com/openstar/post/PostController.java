@@ -1,8 +1,8 @@
 package com.openstar.post;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.openstar.movie.Entity.MovieTrend;
-import com.openstar.movie.Entity.MoviesTrendEntity;
-import com.openstar.movie.Entity.MultiEntity;
-import com.openstar.movie.Entity.TvTrendEntity;
+import com.openstar.movie.Entity.TvTrend;
 import com.openstar.movie.bo.MovieTrendBO;
 import com.openstar.movie.bo.MultiBO;
 import com.openstar.movie.bo.PersonBO;
@@ -55,17 +53,36 @@ public class PostController {
 		return "template/layout";
 	}
 	
-//	@GetMapping("/post-community-view")
-//	// url: http://localhost/post/post-community-view
-//	public String postCommunityView(
-//			Model model
-//	) throws UnsupportedEncodingException, IOException {
-//		
-////		int multiId = multiBO.get
-//		
-//		model.addAttribute("viewName", "post/communityList");
-//		return "template/layout";
-//	}
+	@GetMapping("/post-community-view/{searchId}")
+	// url: http://localhost/post/post-community-view
+	public String postCommunityView(
+			@PathVariable(name = "searchId") int searchId,
+			Model model) throws UnsupportedEncodingException, IOException {
+		
+		MovieTrend movieTrendResultList = null;
+		TvTrend tvTrendResultList = null;
+
+		try {
+		    movieTrendResultList = movieTrendBO.parseMovieTrendJson(searchId);
+		} catch (FileNotFoundException e) {
+		    // 만약 NotFoundException이 발생하면 TvTrendBO로 분기
+		    tvTrendResultList = tvTrendBO.parseTvTrendJson(searchId);
+		}
+
+		// movieTrendResultList가 null이 아니면 movieTrendResultList를 사용, 그렇지 않으면 tvTrendResultList를 사용
+		if (movieTrendResultList != null) {
+		    // movieTrendResultList 사용
+			model.addAttribute("movieTrendResultList", movieTrendResultList);
+		} else if (tvTrendResultList != null) {
+		    // tvTrendResultList 사용
+			model.addAttribute("tvTrendResultList", tvTrendResultList);
+		}
+
+		
+		model.addAttribute("viewName", "post/communityList");
+		return "template/layout";
+
+	}
 	
 	@GetMapping("/post-review-view")
 	// url: http://localhost/post/post-review-view

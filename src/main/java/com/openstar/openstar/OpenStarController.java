@@ -115,10 +115,10 @@ public class OpenStarController {
 			Model model)
 			throws UnsupportedEncodingException, IOException {
 		
-		List<PersonResult> personResultList = (List<PersonResult>) postRestController.postSearch(searchKeyword);
-		List<MultiEntity> multiResultList = multiBO.parseJsonMulti(searchKeyword);
+		List<PersonResult> personResultList = personBO.parseJson(searchKeyword);
+//		List<MultiEntity> multiResultList = postRestController.postSearchAll(searchKeyword);
 		model.addAttribute("personResultList", personResultList);
-		model.addAttribute("multiResultList", multiResultList);
+//		model.addAttribute("multiResultList", multiResultList);
 		model.addAttribute("contentId", contentId);
 		model.addAttribute("viewName", "openstar/detailContentsView");
 		return "template/layout";

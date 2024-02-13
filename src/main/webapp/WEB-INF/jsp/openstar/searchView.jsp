@@ -94,12 +94,10 @@
 	$(document).ready(function() {
 		// 이미지 클릭 이벤트 핸들러
 		$('.poster-img').click(function() {
-			let contentId = $(this).data(
-					'content-id');
-			let searchActorName = $(this).data(
-					'original-name');
-			// alert(contentId);
-			// alert(searchActorName);
+			let contentId = $(this).data('content-id');
+			let searchActorName = $(this).data('original-name');
+			
+			alert(contentId);
 
 			if (contentId != '') {
 				$.ajax({
@@ -120,11 +118,6 @@
 					}); // ajax
 				}
 			}); // click poster-img
-			
-/* 			$.('#community').on('click', function(){
-				alert("클릭");
-				
-			}); */ // community
 			
 		}); // ready
 </script>
