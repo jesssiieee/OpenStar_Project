@@ -76,6 +76,7 @@ public class PostRestController {
 	
 	@PostMapping("/create")
 	public Map<String, Object> create( 
+			@RequestParam("postId") int postId,
 			@RequestParam("content") String content,
 			@RequestParam(value = "file", required = false) MultipartFile file,
 			HttpSession session ) {
@@ -85,7 +86,7 @@ public class PostRestController {
 		String userLoginId = (String)session.getAttribute("userLoginId");
 		
 		// DB insert
-		postBO.addPost(userId, userLoginId, content, file);
+		postBO.addPost(userId, postId, userLoginId, content, file);
 		
 		// 응답값 
 		Map<String, Object> result = new HashMap<>();

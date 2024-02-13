@@ -3,6 +3,7 @@ package com.openstar.post;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,10 @@ import com.openstar.movie.bo.PersonBO;
 import com.openstar.movie.bo.TvTrendBO;
 import com.openstar.movie.repository.MovieRepository;
 import com.openstar.movie.repository.TvRepository;
+import com.openstar.post.bo.PostBO;
+import com.openstar.post.domain.Post;
+
+import jakarta.servlet.http.HttpSession;
 
 
 @Controller
@@ -38,6 +43,9 @@ public class PostController {
 	private TvTrendBO tvTrendBO;
 	
 	@Autowired
+	private PostBO postBO;
+	
+	@Autowired
 	private PostRestController postRestController;
 	
 	@Autowired
@@ -46,9 +54,13 @@ public class PostController {
 	@Autowired
 	private TvRepository tvRepository;
 	
-	@GetMapping("/post-write")
+	@GetMapping("/post-write/{writeId}")
 	// url: http://localhost/post/post-write
-	public String createView(Model model) {
+	public String createView(
+			@PathVariable(name = "writeId") int writeId,
+			Model model) {
+		
+		model.addAttribute("writeId", writeId);
 		model.addAttribute("viewName", "post/write");
 		return "template/layout";
 	}
@@ -57,6 +69,7 @@ public class PostController {
 	// url: http://localhost/post/post-community-view
 	public String postCommunityView(
 			@PathVariable(name = "searchId") int searchId,
+			HttpSession session,
 			Model model) throws UnsupportedEncodingException, IOException {
 		
 		MovieTrend movieTrendResultList = null;
@@ -77,8 +90,17 @@ public class PostController {
 		    // tvTrendResultList 사용
 			model.addAttribute("tvTrendResultList", tvTrendResultList);
 		}
-
 		
+//		Integer userId = (Integer)session.getAttribute("userId");
+//		if (userId == null) {
+//			// 비로그인이면, 로그인 페이지로 이동.
+//			return "redirect:/user/sign-in-view";
+//		}
+
+		// db selectselectAll
+		List<Post> getCommunityList = (List<Post>) postBO.getPostByPostId(searchId);
+		
+		model.addAttribute("getCommunityList", getCommunityList);
 		model.addAttribute("viewName", "post/communityList");
 		return "template/layout";
 

@@ -13,6 +13,7 @@ public class Post {
 
 	private int id;
 	private int userId;
+	private int postId;
 	private String content;
 	private String imagePath;
 	private Date createdAt;

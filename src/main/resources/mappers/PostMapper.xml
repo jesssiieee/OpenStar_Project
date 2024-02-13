@@ -9,6 +9,7 @@
  		INSERT INTO	`post`
  			(
 	 			`userId`
+	 			, `postId`
 				, `content`
 				, `imagePath`
 				, `createdAt`
@@ -17,6 +18,7 @@
  		VALUES
  			(
  				#{userId}
+ 				, #{postId}
  				, #{content}
  				, #{imagePath}
  				, NOW()
@@ -24,5 +26,22 @@
  			)
  		
  	</insert>
+ 	
+ 	<select id="getPostByPostId" parameterType="map" resultType="com.openstar.post.domain.Post">
+ 	
+ 		SELECT
+			`id`
+ 			, `userId`
+ 			, `postId`
+			, `content`
+			, `imagePath`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`post`
+		WHERE
+			`postId` = #{postId}
+ 	
+ 	</select>
  
  </mapper>
