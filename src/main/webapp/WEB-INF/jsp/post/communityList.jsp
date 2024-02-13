@@ -40,20 +40,14 @@
 	</div>
 
 	<%-- 오른쪽 80% --%>
-	<div style="width: 80%;" class="contents d-flex">
+	<div style="width: 80%;" class="contents">
 		
-		<c:forEach items="${getCommunityList}" var="post">
-			<h4>${post.content }</h4>
-			<img src="${post.imagePath}" > <br>
-		</c:forEach>
-		
-		<%--
-		<c:if test="${not empty getCommunityList.imagePath}">
-			<img src="${getCommunityList.imagePath}" >
-		</c:if>
-	
-	 	<h4>${getCommunityList.content }</h4>
-	 	 --%>
+			<c:forEach items="${getCommunityList}" var="post">
+				<div class="d-flex mb-5">
+					<h4>${post.content }</h4>
+					<img src="${post.imagePath}" style="width: 300px; height: 200px;"> 
+				</div>
+			</c:forEach>
 
 	</div>
 
