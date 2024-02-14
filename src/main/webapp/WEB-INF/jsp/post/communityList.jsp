@@ -18,7 +18,8 @@
 			</div>
 
 			<!-- <a href="http://localhost/post/post-write"> -->
-				<button id="writeBtn" class="btn btn-info" data-write-id=${movieTrend.id }>글쓰기</button>
+			<button id="writeBtn" class="btn btn-info"
+				data-write-id=${movieTrend.id }>글쓰기</button>
 			<!-- </a> -->
 
 		</c:if>
@@ -33,7 +34,8 @@
 			</div>
 
 			<!-- <a href="http://localhost/post/post-write"> -->
-				<button id="writeBtn" class="btn btn-info" data-write-id=${tvTrend.id }>글쓰기</button>
+			<button id="writeBtn" class="btn btn-info"
+				data-write-id=${tvTrend.id }>글쓰기</button>
 			<!-- </a> -->
 		</c:if>
 
@@ -41,40 +43,61 @@
 
 	<%-- 오른쪽 80% --%>
 	<div style="width: 80%;" class="contents">
-		
-			<c:forEach items="${getCommunityList}" var="post">
-				<div class="d-flex mb-5">
-					<h4>${post.content }</h4>
-					<img src="${post.imagePath}" style="width: 300px; height: 200px;"> 
-				</div>
-			</c:forEach>
 
+		<c:forEach items="${getCommunityList}" var="post">
+		
+			<button id="communityDetail" class="btn" data-detail-id="${post.postId}" data-post-id="${post.id}" >
+				<div class="d-flex mb-5 ml-5">
+					<h4 class="mr-3">${post.userName }</h4>
+					<img src="${post.imagePath}" style="width: 300px; height: 200px;">
+					<h5>${post.content }</h5>
+				</div>
+			</button>
+		</c:forEach>
+		
 	</div>
 
 </div>
 
 <script>
-	$(document).ready(function() {
-		
-		$("#writeBtn").on('click', function() {
-			let writeId = $(this).data('write-id');
-			// alert(writeId);
-			
-			$.ajax({
-				type : "GET",
-				success : function(result) {
-					location.href = "/post/post-write/" + encodeURIComponent(writeId)
-				},
-				error : function(error) {
-					console.log(error);
-					alert("검색에 실패하였습니다.");
-				}
-				
-			}); // ajax
-			
-		}); // writeBtn
-		
-	}); // ready
+	$(document).ready(
+			function() {
+
+				$("#writeBtn").on('click',function() {
+					let writeId = $(this).data('write-id');
+					
+					$.ajax({
+						type : "GET",
+						success : function(result) {
+							location.href = "/post/post-write/"+ encodeURIComponent(writeId)
+						},
+						error : function(error) {
+							console.log(error);
+							alert("검색에 실패하였습니다.");
+						}
+
+					}); // ajax
+
+				}); // writeBtn
+						
+				$("#communityDetail").on('click', function() {
+				    let detailId = $(this).data('detail-id');
+				    let postId = $(this).data('post-id');
+				    
+				    $.ajax({
+				        type: "GET",
+				        success: function(result) {
+				            location.href = "/post/post-community-detailView/" + encodeURIComponent(detailId) + "?postId=" + postId;
+				        },
+				        error: function(error) {
+				            console.log(error);
+				            alert("상세페이지로 이동을 실패하였습니다.");
+				        }
+				    }); // ajax
+				}); // communityDetail
+
+
+			}); // ready
 </script>
 
 

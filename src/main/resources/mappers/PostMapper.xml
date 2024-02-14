@@ -9,6 +9,7 @@
  		INSERT INTO	`post`
  			(
 	 			`userId`
+	 			, `userName`
 	 			, `postId`
 				, `content`
 				, `imagePath`
@@ -18,6 +19,7 @@
  		VALUES
  			(
  				#{userId}
+ 				, #{userName}
  				, #{postId}
  				, #{content}
  				, #{imagePath}
@@ -32,6 +34,7 @@
  		SELECT
 			`id`
  			, `userId`
+ 			, `userName`
  			, `postId`
 			, `content`
 			, `imagePath`
@@ -41,6 +44,24 @@
 			`post`
 		WHERE
 			`postId` = #{postId}
+ 	
+ 	</select>
+ 	
+ 	<select id="selectPostDetailByPostid" resultType="com.openstar.post.domain.Post">
+ 	
+ 		SELECT
+			`id`
+ 			, `userId`
+ 			, `userName`
+ 			, `postId`
+			, `content`
+			, `imagePath`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`post`
+		WHERE
+			`id` = #{id}
  	
  	</select>
  

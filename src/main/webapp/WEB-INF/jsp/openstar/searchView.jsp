@@ -102,8 +102,7 @@
 			if (contentId != '') {
 				$.ajax({
 						type : "GET",
-						success : function(
-								result) {
+						success : function(result) {
 							location.href = "/openstar/search-view/detail/"
 									+ encodeURIComponent(searchActorName)
 									+ "?contentId="

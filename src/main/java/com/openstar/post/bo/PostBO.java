@@ -19,7 +19,7 @@ public class PostBO {
 	@Autowired
 	private FileManagerService fileManagerService;
 	
-	public void addPost(int userId, int postId, String userLoginId, String content, MultipartFile file) {
+	public void addPost(int userId, String userName, int postId, String userLoginId, String content, MultipartFile file) {
 		
 		String imagePath = null;
 		
@@ -28,13 +28,19 @@ public class PostBO {
 			imagePath = fileManagerService.saveFile(userLoginId, file);
 		}
 		
-		postmapper.insertPost(userId, postId, content, imagePath);
+		postmapper.insertPost(userId, userName, postId, content, imagePath);
 		
 	}
 	
 	public List<Post> getPostByPostId(int postId) {
 
 		return postmapper.getPostByPostId(postId);
+		
+	}
+	
+	public Post getPostDetailByPostId(int id) {
+		
+		return postmapper.selectPostDetailByPostid(id);
 		
 	}
 
