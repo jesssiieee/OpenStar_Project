@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.openstar.check.bo.CheckBO;
 import com.openstar.movie.Entity.MovieTrend;
 import com.openstar.movie.Entity.MoviesTrendEntity;
 import com.openstar.movie.Entity.MultiEntity;
@@ -25,6 +26,8 @@ import com.openstar.movie.bo.TvTrendBO;
 import com.openstar.movie.repository.MovieRepository;
 import com.openstar.movie.repository.TvRepository;
 import com.openstar.post.PostRestController;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/openstar")
@@ -41,6 +44,9 @@ public class OpenStarController {
 	
 	@Autowired
 	private MultiBO multiBO;
+	
+	@Autowired
+	private CheckBO checkBO;
 
 	@Autowired
 	private PostRestController postRestController;
@@ -50,7 +56,7 @@ public class OpenStarController {
 	
 	@Autowired
 	private TvTrendBO trTrendBO;
-
+	
 	@GetMapping("/first-view")
 	// url: http://localhost/openstar/first-view
 	public String firstView(Model model) {
@@ -89,20 +95,34 @@ public class OpenStarController {
 
 	@GetMapping("/search-view/{searchKeyword}")
 //	 url: http://localhost/openstar/search-view
-	public String searchView(@PathVariable(name = "searchKeyword") String searchKeyword, Model model)
+	public String searchView(
+			@PathVariable(name = "searchKeyword") String searchKeyword, 
+			HttpSession session,
+			Model model)
 			throws UnsupportedEncodingException, IOException {
+		
+		int id = 0;
+		Integer userId = (Integer) session.getAttribute("userId");
 
 		List<MultiEntity> multiResultList = null;
 		List<PersonResult> personResultList = null;
+		MultiEntity multi = null;
+		int contentId = 0;
+//		boolean isLike = checkBO.getLikeCountByContentIdUserId(userId, 0);
 
 		if (searchKeyword.length() > 3) {
 			multiResultList = (List<MultiEntity>) multiBO.parseJsonMulti(searchKeyword);
+			multi = multiResultList.get(0);
+			contentId = multi.getId();
 		} else {
 			personResultList = (List<PersonResult>) personBO.parseJson(searchKeyword);
 		}
-
+		
+		boolean isLiked = checkBO.getLikeCountByContentIdUserId(userId, contentId);
+		
 		model.addAttribute("personResultList", personResultList);
 		model.addAttribute("multiResultList", multiResultList);
+		model.addAttribute("isLiked", isLiked);
 		model.addAttribute("viewName", "openstar/searchView");
 		return "template/layout";
 	}

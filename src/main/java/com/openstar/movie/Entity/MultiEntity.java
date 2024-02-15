@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import lombok.Data;
+import lombok.Getter;
 
 @Data
+@Getter
 public class MultiEntity {
 	
     private int id;

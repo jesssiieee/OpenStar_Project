@@ -56,8 +56,27 @@
 					
 					<%-- 좋아요, 북마크 --%>
 					<div class="float-right mb-5">
-						<a href="#"><img style="height: 35px; width: 35px;" class="" src="/static/image/noneheart.png"></a>
-						<a href="#"><img style="height: 50px; width: 50px;" class="ml-2" src="/static/image/nonebookmark.png"></a>
+						<%-- 좋아요 --%>
+						
+						<c:set value="${isLiked }" var="like" />
+						
+						<c:if test="${like eq false }">
+							<a href="#" class="like-btn" data-content-id="${multiResult.id }" >
+								<img style="height: 35px; width: 35px;" class="" src="/static/image/noneheart.png">
+							</a>
+						</c:if>
+						
+						<c:if test="${like eq true }">
+							<a href="#" class="like-btn" data-content-id="${multiResult.id }" >
+								<img style="height: 35px; width: 35px;" class="" src="/static/image/heart.png">
+							</a>
+						</c:if>
+						
+						<%-- 북마크 --%>
+						<a href="#">
+							<img style="height: 50px; width: 50px;" class="ml-2" src="/static/image/nonebookmark.png">
+						</a>
+						
 					</div>
 						
 					<!-- 오른쪽 80% 중 중간 1/3에 해당하는 내용 -->
@@ -113,10 +132,41 @@
 							console
 									.log(error);
 							alert("검색에 실패하였습니다.");
-						}
-					}); // ajax
+					}
+				}); // ajax
+			}
+		}); // click poster-img
+			
+		$('.like-btn').on('click', function() {
+			// alert("클릭");
+			let contentId = $(this).data("content-id");
+			let type = 'like';
+			// alert(type);
+			// alert(contentId);
+			
+				$.ajax ({
+				// get이면 생략
+				// param도 컨트롤러에서 보냄 (생략)
+				url: "/check/like/"+contentId	
+				, data:{"type":type}
+				, success:function(data) {
+					if (data.code == 200) {
+						// 성공
+						location.reload(true);
+					} else if(data.code == 300) {
+						// 비로그인
+						alert(data.error_message);
+						// 로그인 페이지로
+						location.href = "/user/sign-in-view";
+					}
 				}
-			}); // click poster-img
+				, error:function(request, status, error) {
+					alert("좋아요를 하는데 실패했습니다.");
+				}
+				
+			}); // like-btn ajax
+			
+		});
 			
 		}); // ready
 </script>

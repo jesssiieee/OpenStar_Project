@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+  <mapper namespace="com.openstar.check.mapper.CheckMapper">
+  
+ 	<select id="selectLikeCountByContentIdOrUserId" parameterType="map" resultType="int">
+	
+		SELECT 
+			COUNT(1)
+		FROM
+			`check`
+		WHERE
+			`contentId` = #{contentId}
+		<if test="userId != null">
+		AND
+			`userId` = #{userId}
+		</if>
+	</select>
+	
+	
+	<insert id="addLikeByContentIdUserId" parameterType="map">
+		
+		INSERT INTO `check`
+			(			
+				`userId`
+				, `contentId`
+				, `type`
+				, `createdAt`
+			)
+		VALUES
+			(
+				#{userId}
+				, #{contentId}
+				, #{type}
+				, NOW()
+			)
+		
+	</insert>
+	
+	<delete id="deleteLikeByContentIdUserId" parameterType="map" >
+		
+		DELETE 
+		FROM
+			`check`
+		WHERE
+			`contentId` = #{contentId}
+		AND
+			`userId` = #{userId}
+		
+	</delete>
+ 
+ </mapper>
