@@ -46,7 +46,7 @@
 
 		<c:forEach items="${getCommunityList}" var="post">
 		
-			<button id="communityDetail" class="btn" data-detail-id="${post.postId}" data-post-id="${post.id}" >
+			<button id="communityDetail" class="btn communityDetail-btn" data-detail-id="${post.postId}" data-post-id="${post.id}" >
 				<div class="d-flex mb-5 ml-5">
 					<h4 class="mr-3">${post.userName }</h4>
 					<img src="${post.imagePath}" style="width: 300px; height: 200px;">
@@ -64,7 +64,9 @@
 			function() {
 
 				$("#writeBtn").on('click',function() {
+					alert("클릭");
 					let writeId = $(this).data('write-id');
+					alert(writeId);
 					
 					$.ajax({
 						type : "GET",
@@ -80,7 +82,7 @@
 
 				}); // writeBtn
 						
-				$("#communityDetail").on('click', function() {
+				$(".communityDetail-btn").on('click', function() {
 				    let detailId = $(this).data('detail-id');
 				    let postId = $(this).data('post-id');
 				    

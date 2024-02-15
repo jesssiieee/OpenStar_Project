@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.openstar.comment.mapper.CommentMapper">
+ 
+ 	<insert id="insertComment" parameterType="map">
+ 	
+ 		INSERT INTO `comment`
+ 			(	
+ 				`detailId`
+ 				, `postId`
+ 				, `userId`
+ 				, `userName`
+ 				, `content`
+ 				, `createdAt`
+ 				, `updatedAt`
+ 			)
+ 		VALUES
+ 			(
+ 				#{detailId}
+ 				, #{postId}
+ 				, #{userId}
+ 				, #{userName}
+ 				, #{content}
+ 				, NOW()
+ 				, NOW()
+ 			)
+ 			
+ 		
+ 	</insert>
+ 	
+ 	<select id="selectComment" resultType="com.openstar.comment.domain.Comment">
+ 	
+ 		SELECT
+ 			`id`
+			, `detailId`
+			, `postId`
+			, `userId`
+			, `userName`
+			, `content`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`comment`
+		WHERE
+			`postId` = #{detailId}
+		AND
+			`detailId` = #{postId}
+ 	
+ 	</select>
+ 
+ </mapper>

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.openstar.comment.bo.CommentBO;
+import com.openstar.comment.domain.Comment;
 import com.openstar.movie.Entity.MovieTrend;
 import com.openstar.movie.Entity.TvTrend;
 import com.openstar.movie.bo.MovieTrendBO;
@@ -44,6 +46,9 @@ public class PostController {
 
 	@Autowired
 	private PostBO postBO;
+	
+	@Autowired
+	private CommentBO commentBO;
 
 	@Autowired
 	private PostRestController postRestController;
@@ -110,10 +115,17 @@ public class PostController {
 			@RequestParam(name = "postId", required = false) int postId, 
 			HttpSession session,
 			Model model) {
+		
+		int userId = (int)session.getAttribute("userId");
+		String userLoginId = (String)session.getAttribute("userLoginId");
 
 		Post getCommunityPost = postBO.getPostDetailByPostId(postId);
+		
+		Comment getCommentList = commentBO.getComment(detailId, postId);
 
-		model.addAttribute("getCommunityList", getCommunityPost);
+		model.addAttribute("getCommunityPost", getCommunityPost);
+		model.addAttribute("getCommentList", getCommentList);
+
 		model.addAttribute("viewName", "post/communityDetail");
 		return "template/layout";
 	}

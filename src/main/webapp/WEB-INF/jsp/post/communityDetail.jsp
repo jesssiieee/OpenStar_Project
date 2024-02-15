@@ -21,7 +21,15 @@
 		<div style="width: 1000px; height: 600px;"
 			class="ml-5 mt-5 border-bottom-black">
 			댓글
-			<button id="comment" class="btn btn-success" data-detail-id="${detail.id}" data-post-id="${detail.postId}">댓글게시</button>
+			// getCommentList
+			
+			<c:set var="comment" value="${getCommentList}"/>
+				<h5>${comment.content }</h5>
+			<div class="d-flex">
+				<input type="text" id="commentValue" class="form-control mr-2 comment-input" placeholder="댓글 내용을 입력하세요.">
+				<button id="comment" class="btn btn-success" 
+				data-detail-id="${detail.id}" data-post-id="${detail.postId}" data-post-username="${detail.userName }" >게시</button> 
+			</div>
 		</div>
 
 	</div>
@@ -33,12 +41,33 @@
 	$(document).ready(function() {
 		
 		$("#comment").on('click', function() {
-			// alert("클릭");
-			let detailId = $(this).data('detail-id');
-			let postId = $(this).data('post-id');
-			// alert(detailId);
-			alert(postId);
-		});
+		    let detailId = $(this).data('detail-id');
+		    let postId = $(this).data('post-id');
+		    let commentValue = $("#commentValue").val();
+		    // alert(detailId);
+		    // alert(postId);
+		    // alert(commentValue);
+
+		    $.ajax({
+		        type: "POST",
+		        url: "/comment/create",
+		        data: {
+		            "detailId": detailId,
+		            "postId": postId,
+		            "content": commentValue
+		        },
+		        success: function(data) {
+		            // 서버로부터 받은 응답에 따라 동적으로 처리
+		            console.log(data); // 예시: 콘솔에 응답 로그 출력
+		            // 이동할 필요가 있으면 여기서 처리
+		        },
+		        error: function(error) {
+		            console.log(error);
+		            alert("댓글 게시에 실패하였습니다.");
+		        }
+		    }); // ajax
+		}); // comment
+
 		
 	});
 	
