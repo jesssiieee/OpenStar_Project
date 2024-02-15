@@ -120,8 +120,7 @@ public class PostController {
 		String userLoginId = (String)session.getAttribute("userLoginId");
 
 		Post getCommunityPost = postBO.getPostDetailByPostId(postId);
-		
-		Comment getCommentList = commentBO.getComment(detailId, postId);
+		List<Comment> getCommentList = commentBO.getComment(detailId, postId);
 
 		model.addAttribute("getCommunityPost", getCommunityPost);
 		model.addAttribute("getCommentList", getCommentList);

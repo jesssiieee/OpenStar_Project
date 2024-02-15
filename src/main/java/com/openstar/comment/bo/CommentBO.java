@@ -20,10 +20,14 @@ public class CommentBO {
 		
 	}
 	
-	public Comment getComment(int detailId, int postId) {
+	public List<Comment> getComment(int detailId, int postId) {
 		
 		return commentMapper.selectComment(detailId, postId);
 		
+	}
+	
+	public void deleteCommentById(int id) {
+		commentMapper.deleteCommentById(id);
 	}
 
 }

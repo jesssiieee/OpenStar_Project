@@ -18,9 +18,11 @@ public interface CommentMapper {
 			@Param("content") String content
 	);
 	
-	public Comment selectComment(
+	public List<Comment> selectComment(
 			@Param("detailId") int detailId,
 			@Param("postId")int postId
 	);
+	
+	public void deleteCommentById(int id);
 
 }
