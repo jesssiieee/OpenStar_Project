@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.openstar.check.bo.CheckBO;
+import com.openstar.check.mapper.CheckMapper;
 import com.openstar.movie.Entity.MovieTrend;
 import com.openstar.movie.Entity.MoviesTrendEntity;
 import com.openstar.movie.Entity.MultiEntity;
@@ -47,6 +48,9 @@ public class OpenStarController {
 	
 	@Autowired
 	private CheckBO checkBO;
+	
+	@Autowired
+	private CheckMapper checkMapper;
 
 	@Autowired
 	private PostRestController postRestController;
@@ -106,9 +110,10 @@ public class OpenStarController {
 
 		List<MultiEntity> multiResultList = null;
 		List<PersonResult> personResultList = null;
+		boolean isLiked = false;
+		boolean isBookMarked = false;
 		MultiEntity multi = null;
 		int contentId = 0;
-//		boolean isLike = checkBO.getLikeCountByContentIdUserId(userId, 0);
 
 		if (searchKeyword.length() > 3) {
 			multiResultList = (List<MultiEntity>) multiBO.parseJsonMulti(searchKeyword);
@@ -117,12 +122,15 @@ public class OpenStarController {
 		} else {
 			personResultList = (List<PersonResult>) personBO.parseJson(searchKeyword);
 		}
+		 
 		
-		boolean isLiked = checkBO.getLikeCountByContentIdUserId(userId, contentId);
+		isLiked = checkBO.getCountByContentIdUserIdType(userId, contentId, "like");
+		isBookMarked = checkBO.getCountByContentIdUserIdType(userId, contentId, "bookmark");
 		
 		model.addAttribute("personResultList", personResultList);
 		model.addAttribute("multiResultList", multiResultList);
 		model.addAttribute("isLiked", isLiked);
+		model.addAttribute("isBookMarked", isBookMarked);
 		model.addAttribute("viewName", "openstar/searchView");
 		return "template/layout";
 	}

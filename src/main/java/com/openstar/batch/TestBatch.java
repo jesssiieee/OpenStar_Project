@@ -13,7 +13,7 @@ public class TestBatch {
 	
 	@Scheduled(cron = "0 */1 * * * *") // 초, 분, 시간, 일, * <= 매 1분마다
 	public void task() {
-		log.info("###### batch 수행 ######");
+//		log.info("###### batch 수행 ######");
 	}
 
 }

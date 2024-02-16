@@ -36,7 +36,23 @@ public class CheckRestController {
 		
 		return result;
 		
+	}
+	
+	@RequestMapping("/bookmark/{contentId}")
+	public Map<String, Object> bookmarkToggle(
+			@RequestParam("type") String type,
+			@PathVariable("contentId") int contentId, 
+			HttpSession session) {
 		
+		Integer userId = (Integer) session.getAttribute("userId");
+		
+		checkBO.bookmarkToggle(userId, contentId, type);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("result", "성공");
+		
+		return result;
 	}
 	
 }

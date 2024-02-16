@@ -16,6 +16,42 @@
 		AND
 			`userId` = #{userId}
 		</if>
+		AND
+			`type` = #{type}
+	</select>
+	
+	<select id="selectBookMarkCountByContentIdOrUserId" parameterType="map" resultType="int">
+		
+		SELECT 
+			COUNT(1)
+		FROM
+			`check`
+		WHERE
+			`contentId` = #{contentId}
+		<if test="userId != null">
+		AND
+			`userId` = #{userId}
+		</if>
+		AND
+			`type` = #{type}
+		
+	</select>
+	
+	<select id="selectCountByContentIdUserIdType" parameterType="map" resultType="int">
+	
+		SELECT 
+			COUNT(1)
+		FROM
+			`check`
+		WHERE
+			`contentId` = #{contentId}
+		<if test="userId != null">
+		AND
+			`userId` = #{userId}
+		</if>
+		AND
+			`type` = #{type}
+	
 	</select>
 	
 	
@@ -38,6 +74,25 @@
 		
 	</insert>
 	
+	<insert id="addBookMarkByContentIdUserId" parameterType="map">
+	
+		INSERT INTO `check`
+			(			
+				`userId`
+				, `contentId`
+				, `type`
+				, `createdAt`
+			)
+		VALUES
+			(
+				#{userId}
+				, #{contentId}
+				, #{type}
+				, NOW()
+			)
+	
+	</insert>
+	
 	<delete id="deleteLikeByContentIdUserId" parameterType="map" >
 		
 		DELETE 
@@ -47,6 +102,22 @@
 			`contentId` = #{contentId}
 		AND
 			`userId` = #{userId}
+		AND
+			`type` = #{type}
+		
+	</delete>
+	
+	<delete id="deleteBookMarkByContentIdUserId" parameterType="map">
+		
+		DELETE 
+		FROM
+			`check`
+		WHERE
+			`contentId` = #{contentId}
+		AND
+			`userId` = #{userId}
+		AND
+			`type` = #{type}
 		
 	</delete>
  

@@ -20,7 +20,7 @@
 		</div>
 		
 		<div>
-			<a href="/post/review-list-view"><img class="img-concert" src="/static/image/review.png"></a>
+			<a href="/post/post-review-view"><img class="img-concert" src="/static/image/review.png"></a>
 			<h1 class="ml-4">REVIEW</h1>
 		</div>
 	
