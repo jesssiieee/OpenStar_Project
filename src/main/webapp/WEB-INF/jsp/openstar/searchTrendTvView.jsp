@@ -23,23 +23,39 @@
 			<%-- 좋아요, 북마크 --%>
 			<div class="float-right d-flex mb-5">
 				<%-- 좋아요 --%>
-
+				
 				<div class="float-right d-flex mb-5">
-					<a href="#" class="like-btn" data-content-id="${multiResult.id }">
-						<img style="height: 40px; width: 35px;" class="ml-2 mt-1"
-						src="/static/image/noneheart.png">
-					</a>
+					<c:set value="${isLiked }" var="like"/>
+					
+					<c:if test="${like == false }">
+						<a href="#" class="like-btn" data-content-id="${tvTrendResultList.id }" >
+							<img style="height: 40px; width: 35px;" class="ml-2 mt-1" src="/static/image/noneheart.png">
+						</a>
+					</c:if>
+					
+					<c:if test="${like }">
+						<a href="#" class="like-btn" data-content-id="${tvTrendResultList.id }" >
+							<img style="height: 40px; width: 35px;" class="ml-2 mt-1" src="/static/image/heart.png">
+						</a>
+					</c:if>
 				</div>
-
+				
 				<%-- 북마크 --%>
-				<div class="float-right d-flex mb-3">
-					<a href="#" class="bookmark-btn"
-						data-content-id="${multiResult.id }"> <img
-						style="height: 50px; width: 50px;" class="ml-2 mb-4"
-						src="/static/image/nonebookmark.png">
-					</a>
+				<div class="float-right d-flex mb-5">
+					<c:set value="${isBookMarked }" var="bookmark" />
+					<c:if test="${bookmark eq false }">
+						<a href="#" class="bookmark-btn" data-content-id="${tvTrendResultList.id }" >
+							<img style="height: 50px; width: 50px;" class="ml-2" src="/static/image/nonebookmark.png">
+						</a>
+					</c:if>
+					
+					<c:if test="${bookmark eq true }">
+						<a href="#" class="bookmark-btn" data-content-id="${tvTrendResultList.id }" >
+							<img style="height: 50px; width: 50px;" class="ml-2" src="/static/image/bookmark.png">
+						</a>
+					</c:if>
 				</div>
-
+				
 			</div>
 
 			<div style="width: 1000px; hieght: 300px;"
@@ -65,4 +81,100 @@
 	</div>
 
 </div>
->
+
+
+<script>
+	$(document).ready(function() {
+
+		let currentRequests = []; // 현재 실행 중인 AJAX 요청을 저장하는 배열
+
+		// Like 버튼 클릭 이벤트 핸들러
+		$(document).on('click', '.like-btn', function(e) {
+
+			e.preventDefault();
+
+			// alert("like");
+
+			// Like 버튼에 대한 AJAX 요청만 수행
+			let button = $(this);
+			let contentId = button.data("content-id");
+			let type = 'like';
+
+			// alert(contentId);
+
+			console.log("Like 버튼 클릭 - contentId: " + contentId);
+
+			// 현재 실행 중인 AJAX 요청을 모두 취소합니다.
+			currentRequests.forEach(function(request) {
+				request.abort();
+			});
+			currentRequests = []; // 배열 비우기
+
+			let request = $.ajax({
+				url : "/check/like/" + contentId,
+				data : {
+					"type" : type
+				},
+				success : function(data) {
+					if (data.code == 200) {
+						location.reload(true);
+					} else if (data.code == 300) {
+						alert(data.error_message);
+						location.href = "/user/sign-in-view";
+					}
+				},
+				error : function(request, status, error) {
+					alert("좋아요를 하는데 실패했습니다.");
+				}
+			});
+
+			// 현재 요청을 배열에 추가합니다.
+			currentRequests.push(request);
+		});
+
+		// Bookmark 버튼 클릭 이벤트 핸들러
+		$(document).on('click', '.bookmark-btn', function(e) {
+
+			e.preventDefault();
+
+			// alert("bookmark");
+
+			// Bookmark 버튼에 대한 AJAX 요청만 수행
+			let button = $(this);
+			let contentId = button.data("content-id");
+			console.log(contentId);
+			let type = 'bookmark';
+
+			// alert(contentId);
+
+			console.log("Bookmark 버튼 클릭 - contentId: " + contentId);
+
+			// 현재 실행 중인 AJAX 요청을 모두 취소합니다.
+			currentRequests.forEach(function(request) {
+				request.abort();
+			});
+			currentRequests = []; // 배열 비우기
+
+			let request = $.ajax({
+				url : "/check/bookmark/" + contentId,
+				data : {
+					"type" : type
+				},
+				success : function(data) {
+					if (data.code == 200) {
+						location.reload(true);
+					} else if (data.code == 300) {
+						alert(data.error_message);
+						location.href = "/user/sign-in-view";
+					}
+				},
+				error : function(request, status, error) {
+					alert("북마크를 하는데 실패했습니다.");
+				}
+			});
+
+			// 현재 요청을 배열에 추가합니다.
+			currentRequests.push(request);
+		});
+	});
+</script>

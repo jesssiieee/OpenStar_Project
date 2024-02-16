@@ -154,11 +154,19 @@ public class OpenStarController {
 	
 	@GetMapping("/search-view/trend/{movieId}")
 	public String trendMovieSearchView(
-			@PathVariable(name = "movieId") int movieId
+			@PathVariable(name = "movieId") int movieId,
+			HttpSession session
 			,Model model) throws UnsupportedEncodingException, IOException {
 		
 		MovieTrend movieTrendResultList = movieTrendBO.parseMovieTrendJson(movieId);
 		
+		Integer userId = (Integer) session.getAttribute("userId");
+		
+		boolean isLiked = checkBO.getCountByContentIdUserIdType(userId, movieId, "like");
+		boolean isBookMarked = checkBO.getCountByContentIdUserIdType(userId, movieId, "bookmark");
+		
+		model.addAttribute("isLiked", isLiked);
+		model.addAttribute("isBookMarked", isBookMarked);
 		model.addAttribute("movieTrendResultList", movieTrendResultList);
 		model.addAttribute("viewName", "openstar/searchTrendMovieView");
 		return "template/layout";
@@ -166,10 +174,19 @@ public class OpenStarController {
 	
 	@GetMapping("/search-view/trendTv/{tvId}")
 	public String trendTvSearchView(
-			@PathVariable(name = "tvId") int tvId
+			@PathVariable(name = "tvId") int tvId,
+			HttpSession session
 			,Model model) throws UnsupportedEncodingException, IOException {
 		
 		TvTrend tvTrendResultList = trTrendBO.parseTvTrendJson(tvId);
+		
+		Integer userId = (Integer) session.getAttribute("userId");
+		
+		boolean isLiked = checkBO.getCountByContentIdUserIdType(userId, tvId, "like");
+		boolean isBookMarked = checkBO.getCountByContentIdUserIdType(userId, tvId, "bookmark");
+		
+		model.addAttribute("isLiked", isLiked);
+		model.addAttribute("isBookMarked", isBookMarked);
 		
 		model.addAttribute("tvTrendResultList", tvTrendResultList);
 		model.addAttribute("viewName", "openstar/searchTrendTvView");

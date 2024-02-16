@@ -85,10 +85,8 @@ int contentId = Integer.parseInt(contentIdStr);
 					success : function(result) {
 						location.href = "/post/post-community-view/" + searchId;
 					},
-					error : function(
-							error) {
-						console
-								.log(error);
+					error : function(error) {
+						console.log(error);
 						alert("검색에 실패하였습니다.");
 					}
 					

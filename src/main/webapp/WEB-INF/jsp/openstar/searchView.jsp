@@ -107,9 +107,9 @@
 						class="ml-5 mt-5">
 						<!-- 오른쪽 80% 중 하단 1/3에 해당하는 내용 -->
 						<div class="float-right">
-							<a href="http://localhost/post/post-community-view">
-								<button class="btn btn-primary" id="community" data-search-id=${multiResult.id }>커뮤니티</button>
-							</a>
+							<!-- <a href="http://localhost/post/post-community-view/${knownFor.id }">  -->
+							<button class="btn btn-primary" id="community" data-search-id="${multiResult.id }">커뮤니티</button>
+							<!-- </a>  -->
 						</div>
 					</div>
 				</div>
@@ -226,8 +226,31 @@ $(document).ready(function() {
 
         // 현재 요청을 배열에 추가합니다.
         currentRequests.push(request);
-    });
-});
+    }); // bookmark
+    
+    $("#community").on('click', function() {
+    	
+    	// alert("클릭");
+		let searchId = $(this).data('search-id');
+		// alert(searchId);
+			
+			if (searchId != '') {
+				$.ajax({
+					type : "GET",
+					success : function(result) {
+						location.href = "/post/post-community-view/" + searchId;
+					},
+					error : function(error) {
+						console.log(error);
+						alert("검색에 실패하였습니다.");
+					}
+					
+				}); // ajax
+			}
+    	
+    }); // community
+    
+}); // ready
 
 </script>
 
