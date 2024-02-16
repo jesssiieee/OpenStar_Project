@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.openstar.common.FileManagerService;
 import com.openstar.post.domain.Post;
+import com.openstar.post.domain.Review;
 import com.openstar.post.mapper.PostMapper;
 
 @Service
@@ -18,6 +19,8 @@ public class PostBO {
 	
 	@Autowired
 	private FileManagerService fileManagerService;
+	
+	// communtiy
 	
 	public void addPost(int userId, String userName, int postId, String userLoginId, String content, MultipartFile file) {
 		
@@ -42,6 +45,27 @@ public class PostBO {
 		
 		return postmapper.selectPostDetailByPostid(id);
 		
+	}
+	
+	// review
+	
+//	postBO.addReview(userId, userLoginId, content, rating, file);
+	
+	public void addReview(int userId, String userName, String content, double rating, MultipartFile file) {
+		
+		String imagePath = null;
+		
+		// 업로드 할 이미지가 있을 때 업로드
+		if (file != null) {
+			imagePath = fileManagerService.saveFile(userName, file);
+		}
+		
+		postmapper.insertReview(userId, userName, content, rating, imagePath);
+		
+	}
+	
+	public List<Review> getReviewById() {
+		return postmapper.selectReviewById();
 	}
 
 }

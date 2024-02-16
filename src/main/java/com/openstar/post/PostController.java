@@ -25,6 +25,7 @@ import com.openstar.movie.repository.MovieRepository;
 import com.openstar.movie.repository.TvRepository;
 import com.openstar.post.bo.PostBO;
 import com.openstar.post.domain.Post;
+import com.openstar.post.domain.Review;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -65,6 +66,14 @@ public class PostController {
 
 		model.addAttribute("writeId", writeId);
 		model.addAttribute("viewName", "post/write");
+		return "template/layout";
+	}
+	
+	@GetMapping("/post-write-review")
+	// url: http://localhost/post/post-write-review
+	public String createView(Model model) {
+
+		model.addAttribute("viewName", "post/writeReview");
 		return "template/layout";
 	}
 
@@ -132,6 +141,11 @@ public class PostController {
 	@GetMapping("/post-review-view")
 	// url: http://localhost/post/post-review-view
 	public String postReviewView(Model model) {
+		
+		// db select by id(pk)
+		List<Review> reviewList = postBO.getReviewById();
+		
+		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("viewName", "post/reviewList");
 		return "template/layout";
 	}

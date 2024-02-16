@@ -94,5 +94,24 @@ public class PostRestController {
 		result.put("result", "성공");
 		return result;
 	}
+	
+	@PostMapping("/create-review")
+	public Map<String, Object> createReview(
+			@RequestParam("rating") double rating,
+			@RequestParam("content") String content,
+			@RequestParam(value = "file", required = false) MultipartFile file,
+			HttpSession session) {
+		
+		// 글쓴이 번호 - session에 있는 userId를 꺼낸다. (로그인한 사용자)
+		int userId = (int)session.getAttribute("userId");
+		String userLoginId = (String)session.getAttribute("userLoginId");
+		
+		postBO.addReview(userId, userLoginId, content, rating, file);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result; 
+	}
 
 }

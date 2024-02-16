@@ -58,24 +58,24 @@
 					<div class="float-right d-flex mb-5">
 						<%-- 좋아요 --%>
 						
-						<div>
+						<div class="float-right d-flex mb-5">
 							<c:set value="${isLiked }" var="like"/>
 							
 							<c:if test="${like == false }">
 								<a href="#" class="like-btn" data-content-id="${multiResult.id }" >
-									<img style="height: 50px; width: 35px;" class="" src="/static/image/noneheart.png">
+									<img style="height: 40px; width: 35px;" class="ml-2 mt-1" src="/static/image/noneheart.png">
 								</a>
 							</c:if>
 							
 							<c:if test="${like }">
 								<a href="#" class="like-btn" data-content-id="${multiResult.id }" >
-									<img style="height: 50px; width: 35px;" class="" src="/static/image/heart.png">
+									<img style="height: 40px; width: 35px;" class="ml-2 mt-1" src="/static/image/heart.png">
 								</a>
 							</c:if>
 						</div>
 						
 						<%-- 북마크 --%>
-						<div>
+						<div class="float-right d-flex mb-5">
 							<c:set value="${isBookMarked }" var="bookmark" />
 							<c:if test="${bookmark eq false }">
 								<a href="#" class="bookmark-btn" data-content-id="${multiResult.id }" >

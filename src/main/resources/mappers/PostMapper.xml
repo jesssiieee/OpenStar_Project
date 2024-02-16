@@ -4,6 +4,8 @@
  
  <mapper namespace="com.openstar.post.mapper.PostMapper">
  
+ 	<!-- community -->
+ 
 	 	<insert id="insertPost" parameterType="map">
  	
  		INSERT INTO	`post`
@@ -62,6 +64,50 @@
 			`post`
 		WHERE
 			`id` = #{id}
+ 	
+ 	</select>
+ 	
+ 	
+ 	<!-- review -->
+ 	
+ 	<insert id="insertReview" parameterType="map">
+ 	
+ 		INSERT INTO `review`
+ 			(
+ 				`userId`
+ 				, `userName`
+ 				, `content`
+ 				, `rating`
+ 				, `imagePath`
+ 				, `createdAt`
+ 				, `updatedAt`
+ 			)
+ 		VALUES
+ 			(
+ 				#{userId}
+ 				, #{userName}
+ 				, #{content}
+ 				, #{rating}
+ 				, #{imagePath}
+ 				, NOW()
+ 				, NOW()
+ 			)
+ 	
+ 	</insert>
+ 	
+ 	<select id="selectReviewById" resultType="com.openstar.post.domain.Review">
+ 	
+ 		SELECT
+ 			`id`
+ 			, `userId`
+ 			, `userName`
+ 			, `content`
+ 			, `rating`
+ 			, `imagePath`
+ 			, `createdAt`
+ 			, `updatedAt`
+ 		FROM
+ 			`review`
  	
  	</select>
  

@@ -20,6 +20,28 @@
 	<div style="width: 80%;" class="contents d-flex">
 		<div style="height: 400px;" class="">
 
+			<%-- 좋아요, 북마크 --%>
+			<div class="float-right d-flex mb-5">
+				<%-- 좋아요 --%>
+
+				<div class="float-right d-flex mb-5">
+					<a href="#" class="like-btn" data-content-id="${multiResult.id }">
+						<img style="height: 40px; width: 35px;" class="ml-2 mt-1"
+						src="/static/image/noneheart.png">
+					</a>
+				</div>
+
+				<%-- 북마크 --%>
+				<div class="float-right d-flex mb-3">
+					<a href="#" class="bookmark-btn"
+						data-content-id="${multiResult.id }"> <img
+						style="height: 50px; width: 50px;" class="ml-2 mb-4"
+						src="/static/image/nonebookmark.png">
+					</a>
+				</div>
+
+			</div>
+
 			<div style="width: 1000px; hieght: 300px;"
 				class="ml-5 mt-5 border-bottom-black">
 				<h5>상세내용: ${movieTrendResultList.overview}</h5>
