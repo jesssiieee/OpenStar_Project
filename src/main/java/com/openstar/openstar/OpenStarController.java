@@ -9,10 +9,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.openstar.check.bo.CheckBO;
+import com.openstar.check.domain.Check;
 import com.openstar.check.mapper.CheckMapper;
 import com.openstar.movie.Entity.MovieTrend;
 import com.openstar.movie.Entity.MoviesTrendEntity;
@@ -60,6 +62,7 @@ public class OpenStarController {
 	
 	@Autowired
 	private TvTrendBO trTrendBO;
+	
 	
 	@GetMapping("/first-view")
 	// url: http://localhost/openstar/first-view
@@ -192,5 +195,24 @@ public class OpenStarController {
 		model.addAttribute("viewName", "openstar/searchTrendTvView");
 		return "template/layout";
 	}
+	
+	@GetMapping("mypage-view")
+	public String myPageViewPost(
+	        HttpSession session,
+	        Model model) throws UnsupportedEncodingException, IOException {
+	    
+	    Integer userId = (Integer) session.getAttribute("userId");
+	    
+	    if (userId == null) {
+	         return "redirect:/user/sign-in-view";
+	    }
+	    
+	    String userLoginId = (String) session.getAttribute("userLoginId");
+	    String userName = (String) session.getAttribute("userName");
+	    
+	    model.addAttribute("viewName", "openstar/myPage");
+	    return "template/layout";
+	}
+
 
 }

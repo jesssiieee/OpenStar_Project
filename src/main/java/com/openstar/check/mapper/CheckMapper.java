@@ -1,7 +1,11 @@
 package com.openstar.check.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import com.openstar.check.domain.Check;
 
 @Mapper
 public interface CheckMapper {
@@ -48,6 +52,10 @@ public interface CheckMapper {
 			@Param("userId") Integer userId,
 			@Param("contentId") int contentId,
 			@Param("type") String type
+	);
+	
+	public List<Check> selectCheckByUserId(
+			@Param("userId") Integer userId
 	);
 	
 	

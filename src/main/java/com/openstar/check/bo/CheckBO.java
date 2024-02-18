@@ -1,8 +1,11 @@
 package com.openstar.check.bo;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.openstar.check.domain.Check;
 import com.openstar.check.mapper.CheckMapper;
 
 @Service
@@ -26,17 +29,6 @@ public class CheckBO {
 		}
 
 	}
-	
-//	// input: postId, userId(null or) output: boolean
-//	public boolean getLikeCountByContentIdUserId(Integer userId, int contentId, String type) {
-//		// 비로그인이면 무조건 빈 하트 => false
-//		if (userId == null) {
-//			return false;
-//		}
-//		// 로그인	 -  Count값이 0보다 크면(==1이면) 채운 하트, 그렇지 않으면 false
-//		return checkMapper.selectLikeCountByContentIdOrUserId(userId, contentId, type) > 0; // <- true
-//		
-//	}
 	
 	public boolean getCountByContentIdUserIdType(Integer userId, int contentId, String type) {
 		// 비로그인이면 무조건 빈 하트 => false
@@ -62,12 +54,9 @@ public class CheckBO {
 		
 	}
 	
-//	public boolean getBookMarkCountByContentIdUserId(Integer userId, int contentId) {
-//		if (userId == null) {
-//			return false;
-//		}
-//		return checkMapper.selectBookMarkCountByContentIdOrUserId(userId, contentId) > 0;
-//	}
+	public List<Check> getCheckByUserId(int userId) {
+		return checkMapper.selectCheckByUserId(userId);
+	}
 	
 
 }

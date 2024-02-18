@@ -54,6 +54,20 @@
 	
 	</select>
 	
+	<select id="selectCheckByUserId" parameterType="map" resultType="com.openstar.check.domain.Check">
+	
+		SELECT 
+			`userId`
+			, `contentId`
+			, `type`
+			, `createdAt`
+		FROM
+			`check`
+		WHERE
+			`userId` = #{userId}
+	
+	</select>
+	
 	
 	<insert id="addLikeByContentIdUserId" parameterType="map">
 		

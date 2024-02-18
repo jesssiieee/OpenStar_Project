@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.openstar.check.bo.CheckBO;
+import com.openstar.check.domain.Check;
 import com.openstar.comment.bo.CommentBO;
 import com.openstar.comment.domain.Comment;
 import com.openstar.movie.Entity.MovieTrend;
@@ -50,6 +52,9 @@ public class PostController {
 	
 	@Autowired
 	private CommentBO commentBO;
+	
+	@Autowired
+	private CheckBO checkBO;
 
 	@Autowired
 	private PostRestController postRestController;
@@ -147,6 +152,44 @@ public class PostController {
 		
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("viewName", "post/reviewList");
+		return "template/layout";
+	}
+	
+	@GetMapping("/post-bookmark-list")
+	// url: http://localhost/post/post-bookmark-list
+	public String postBookMarkList(
+			HttpSession session,
+			Model model) {
+		
+		Integer userId = (Integer) session.getAttribute("userId");
+	    
+	    if (userId == null) {
+	         return "redirect:/user/sign-in-view";
+	    }
+	    
+	    List<Check> checkList = (List<Check>) checkBO.getCheckByUserId(userId);
+	    
+	    model.addAttribute("checkList", checkList);
+		model.addAttribute("viewName", "post/bookMarkList");
+		return "template/layout";
+	}
+	
+	@GetMapping("/post-like-list")
+	// url: http://localhost/post/post-like-list
+	public String postLikeList(
+			HttpSession session,
+			Model model) {
+		
+		Integer userId = (Integer) session.getAttribute("userId");
+	    
+	    if (userId == null) {
+	         return "redirect:/user/sign-in-view";
+	    }
+	    
+	    List<Check> checkList = (List<Check>) checkBO.getCheckByUserId(userId);
+		
+	    model.addAttribute("checkList", checkList);
+		model.addAttribute("viewName", "post/likeList");
 		return "template/layout";
 	}
 
