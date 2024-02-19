@@ -3,6 +3,7 @@ package com.openstar.post;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,10 +50,10 @@ public class PostController {
 
 	@Autowired
 	private PostBO postBO;
-	
+
 	@Autowired
 	private CommentBO commentBO;
-	
+
 	@Autowired
 	private CheckBO checkBO;
 
@@ -73,7 +74,7 @@ public class PostController {
 		model.addAttribute("viewName", "post/write");
 		return "template/layout";
 	}
-	
+
 	@GetMapping("/post-write-review")
 	// url: http://localhost/post/post-write-review
 	public String createView(Model model) {
@@ -124,14 +125,11 @@ public class PostController {
 
 	@GetMapping("/post-community-detailView/{detailId}")
 	// url: http://localhost/post/post-community-detailView
-	public String postCommunitydetailView(
-			@PathVariable(name = "detailId") int detailId, 
-			@RequestParam(name = "postId", required = false) int postId, 
-			HttpSession session,
-			Model model) {
-		
-		int userId = (int)session.getAttribute("userId");
-		String userLoginId = (String)session.getAttribute("userLoginId");
+	public String postCommunitydetailView(@PathVariable(name = "detailId") int detailId,
+			@RequestParam(name = "postId", required = false) int postId, HttpSession session, Model model) {
+
+		int userId = (int) session.getAttribute("userId");
+		String userLoginId = (String) session.getAttribute("userLoginId");
 
 		Post getCommunityPost = postBO.getPostDetailByPostId(postId);
 		List<Comment> getCommentList = commentBO.getComment(detailId, postId);
@@ -146,49 +144,123 @@ public class PostController {
 	@GetMapping("/post-review-view")
 	// url: http://localhost/post/post-review-view
 	public String postReviewView(Model model) {
-		
+
 		// db select by id(pk)
 		List<Review> reviewList = postBO.getReviewById();
-		
+
 		model.addAttribute("reviewList", reviewList);
 		model.addAttribute("viewName", "post/reviewList");
 		return "template/layout";
 	}
-	
+
 	@GetMapping("/post-bookmark-list")
 	// url: http://localhost/post/post-bookmark-list
-	public String postBookMarkList(
-			HttpSession session,
-			Model model) {
-		
+	public String postBookMarkList(HttpSession session, Model model) throws UnsupportedEncodingException, IOException {
+
 		Integer userId = (Integer) session.getAttribute("userId");
-	    
-	    if (userId == null) {
-	         return "redirect:/user/sign-in-view";
-	    }
-	    
-	    List<Check> checkList = (List<Check>) checkBO.getCheckByUserId(userId);
-	    
-	    model.addAttribute("checkList", checkList);
+
+		if (userId == null) {
+			return "redirect:/user/sign-in-view";
+		}
+
+		MovieTrend movieTrendResult = null;
+		TvTrend tvTrendResult = null;
+
+		List<MovieTrend> movieTrendResultList = new ArrayList<>();
+		List<TvTrend> tvTrendResultList = new ArrayList<>();
+
+		List<Check> checkList = (List<Check>) checkBO.getCheckByUserId(userId);
+
+		for (int i = 0; i < checkList.size(); i++) {
+		    String type = checkList.get(i).getType();
+		    if (type.equals("bookmark")) {
+		        int checkId = checkList.get(i).getContentId();
+		        try {
+		            // tvTrendBO.parseTvTrendJson() 호출
+		            tvTrendResult = tvTrendBO.parseTvTrendJson(checkId);
+		            if (tvTrendResult != null) {
+		                tvTrendResultList.add(tvTrendResult);
+		            } else {
+		                // tvTrendResult가 null인 경우, movieTrendBO.parseMovieTrendJson() 호출
+		                movieTrendResult = movieTrendBO.parseMovieTrendJson(checkId);
+		                if (movieTrendResult != null) {
+		                    movieTrendResultList.add(movieTrendResult);
+		                }
+		            }
+		        } catch (FileNotFoundException e) {
+		            // tvTrendBO.parseTvTrendJson()에서 FileNotFoundException이 발생하는 경우
+		            // movieTrendBO.parseMovieTrendJson() 호출
+		            movieTrendResult = movieTrendBO.parseMovieTrendJson(checkId);
+		            if (movieTrendResult != null) {
+		                movieTrendResultList.add(movieTrendResult);
+		            }
+		        } catch (Exception e) {
+		            // 기타 예외에 대한 처리
+		            e.printStackTrace(); // 또는 로그에 기록
+		        }
+		    }
+		}
+
+		model.addAttribute("checkList", checkList);
+		model.addAttribute("tvTrendResultList", tvTrendResultList);
+		model.addAttribute("movieTrendResultList", movieTrendResultList);
 		model.addAttribute("viewName", "post/bookMarkList");
 		return "template/layout";
 	}
-	
+
 	@GetMapping("/post-like-list")
 	// url: http://localhost/post/post-like-list
-	public String postLikeList(
-			HttpSession session,
-			Model model) {
-		
+	public String postLikeList(HttpSession session, Model model) throws UnsupportedEncodingException, IOException {
+
 		Integer userId = (Integer) session.getAttribute("userId");
-	    
-	    if (userId == null) {
-	         return "redirect:/user/sign-in-view";
-	    }
-	    
-	    List<Check> checkList = (List<Check>) checkBO.getCheckByUserId(userId);
-		
-	    model.addAttribute("checkList", checkList);
+
+		if (userId == null) {
+			return "redirect:/user/sign-in-view";
+		}
+
+		MovieTrend movieTrendResult = null;
+		TvTrend tvTrendResult = null;
+
+		List<MovieTrend> movieTrendResultList = new ArrayList<>();
+		List<TvTrend> tvTrendResultList = new ArrayList<>();
+
+		List<Check> checkList = (List<Check>) checkBO.getCheckByUserId(userId);
+
+		for (int i = 0; i < checkList.size(); i++) {
+		    String type = checkList.get(i).getType();
+		    if (type.equals("like")) {
+		        int checkId = checkList.get(i).getContentId();
+		        try {
+		            // tvTrendBO.parseTvTrendJson() 호출
+		            tvTrendResult = tvTrendBO.parseTvTrendJson(checkId);
+		            if (tvTrendResult != null) {
+		                tvTrendResultList.add(tvTrendResult);
+		            } else {
+		                // tvTrendResult가 null인 경우, movieTrendBO.parseMovieTrendJson() 호출
+		                movieTrendResult = movieTrendBO.parseMovieTrendJson(checkId);
+		                if (movieTrendResult != null) {
+		                    movieTrendResultList.add(movieTrendResult);
+		                }
+		            }
+		        } catch (FileNotFoundException e) {
+		            // tvTrendBO.parseTvTrendJson()에서 FileNotFoundException이 발생하는 경우
+		            // movieTrendBO.parseMovieTrendJson() 호출
+		            movieTrendResult = movieTrendBO.parseMovieTrendJson(checkId);
+		            if (movieTrendResult != null) {
+		                movieTrendResultList.add(movieTrendResult);
+		            }
+		        } catch (Exception e) {
+		            // 기타 예외에 대한 처리
+		            e.printStackTrace(); // 또는 로그에 기록
+		        }
+		    }
+		}
+
+
+
+		model.addAttribute("checkList", checkList);
+		model.addAttribute("tvTrendResultList", tvTrendResultList);
+		model.addAttribute("movieTrendResultList", movieTrendResultList);
 		model.addAttribute("viewName", "post/likeList");
 		return "template/layout";
 	}

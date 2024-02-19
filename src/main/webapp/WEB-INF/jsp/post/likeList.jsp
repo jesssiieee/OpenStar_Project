@@ -2,12 +2,39 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<div class="content">
+<div class="justify-content-center mt-5" style="overflow-x: auto;">
 
-	<c:forEach items="${checkList}" var="check">
-	 	<c:if test="${check.type eq 'bookmark' }">
-		dd
-		</c:if> 
-    </c:forEach>
-    
+	<div class="flex-container">
+
+		<c:choose>
+			<c:when test="${not empty tvTrendResultList}">
+				<c:forEach items="${tvTrendResultList}" var="tv">
+					<img src="${tv.posterPath}" alt="Poster" class="poster-img"
+						style="width: 200px; height: 288px;">
+				</c:forEach>
+			</c:when>
+
+			<c:otherwise>
+				<p>No trend results found.</p>
+			</c:otherwise>
+		</c:choose>
+
+		<c:choose>
+			<c:when test="${not empty movieTrendResultList}">
+				<c:forEach items="${movieTrendResultList}" var="movie">
+					<img src="${movie.posterPath}" alt="Poster" class="poster-img"
+						style="width: 200px; height: 288px;">
+				</c:forEach>
+			</c:when>
+
+			<c:otherwise>
+				<p>No trend results found.</p>
+			</c:otherwise>
+		</c:choose>
+
+
+
+
+	</div>
+
 </div>
