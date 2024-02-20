@@ -110,5 +110,41 @@
  			`review`
  	
  	</select>
+ 	
+ 	<select id="selectPostByUserId" resultType="com.openstar.post.domain.Post">
+ 	
+ 		SELECT
+			`id`
+ 			, `userId`
+ 			, `userName`
+ 			, `postId`
+			, `content`
+			, `imagePath`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`post`
+		WHERE
+			`userId` = #{userId}
+ 	
+ 	</select>
+ 	
+ 	<select id="selectReviewByUserId" resultType="com.openstar.post.domain.Review">
+ 	
+ 		SELECT
+ 			`id`
+ 			, `userId`
+ 			, `userName`
+ 			, `content`
+ 			, `rating`
+ 			, `imagePath`
+ 			, `createdAt`
+ 			, `updatedAt`
+ 		FROM
+ 			`review`
+ 		WHERE
+ 			`userId` = #{userId}
+ 	
+ 	</select>
  
  </mapper>

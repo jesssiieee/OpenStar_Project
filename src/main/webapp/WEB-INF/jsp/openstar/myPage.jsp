@@ -27,22 +27,35 @@ ${userName }   --%>
     </div>
     
     <%-- 오른쪽 80% --%>
-    <div style="width: 80%;" class="content d-flex">
+    <div style="width: 80%;" class="content ">
     
-<%--         <c:choose>
-            <c:when test="${check.type eq 'like' }">
-                <c:set value="${check.contentId }" var="contentId" />
-                ㅇ
-            </c:when>
-            
-            <c:when test="${check.type eq 'bookmark' }">
-                <c:set value="${check.contentId }" var="contentId" />
-            </c:when>
-            
-            <c:otherwise>
-                <!-- 다른 어떤 경우에도 해당하지 않을 때 실행될 내용 -->
-            </c:otherwise>
-        </c:choose> --%>
+		<div style="width: 1000px; height: 300px;" class="ml-5 mt-5 border-bottom-black">
+		
+			<h2>작성한 리뷰 목록</h2>
+			<c:forEach items="${postList }" var="post">
+				
+				<div style="width: 800px; heigth">
+					<h5>${post.userName }</h5>
+					<span>${post.content }</span>
+				</div>
+				
+			</c:forEach>
+		
+		</div>
+		<div style="width: 1000px; height: 400px;" class="ml-5 mt-5"> 
+		
+			<h2>작성한 커뮤니티 글 목록</h2>
+			 <c:forEach items="${reviewList }" var="review">
+			 	
+				<div style="width: 800px; heigth">
+					<h5>${review.userName }</h5>
+					<span>${review.content }</span>
+				</div>
+			
+			</c:forEach>
+			
+			
+		</div>
         
     </div>
     

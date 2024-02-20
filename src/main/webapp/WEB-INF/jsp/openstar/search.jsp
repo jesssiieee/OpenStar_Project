@@ -17,64 +17,43 @@
 </div>
 
 <script>
-	$(document)
-			.ready(
-					function() {
+	$(document).ready(function() {
 
-						$("#searchButton")
-								.on(
-										'click',
-										function() {
-											let searchKeyword = $("#SearchFor")
-													.val().trim();
-											// 검색어를 공백을 기준으로 분리
-											/* let keywords = searchKeyword
-													.split(" "); */
-											// 검색어에 공백이 포함되어 있고, 분리된 단어의 개수가 2개 이상이라면
-											if (searchKeyword.length > 3) {
-												// 두 번째 AJAX 요청 보내기
-												$
-														.ajax({
-															type : "GET",
-					/* 										url : "/post/post-search-all/"
-																	+ encodeURIComponent(searchKeyword), */
-															success : function(
-																	result) {
-																// AJAX 요청이 성공한 경우 처리
-																location.href = "/openstar/search-view/"
-																		+ encodeURIComponent(searchKeyword);
-															},
-															error : function(
-																	error) {
-																// AJAX 요청이 실패한 경우 처리
-																console
-																		.log(error);
-																alert("검색에 실패하였습니다.");
-															}
-														});
-											} else {
-												// 첫 번째 AJAX 요청 보내기
-												$
-														.ajax({
-															type : "GET",
-												/* 			url : "/post/post-search/"
-																	+ encodeURIComponent(searchKeyword), */
-															success : function(
-																	result) {
-																// AJAX 요청이 성공한 경우 처리
-																location.href = "/openstar/search-view/"
-																		+ encodeURIComponent(searchKeyword);
-															},
-															error : function(
-																	error) {
-																// AJAX 요청이 실패한 경우 처리
-																console
-																		.log(error);
-																alert("검색에 실패하였습니다.");
-															}
-														});
-											}
-										});
-
+		$("#searchButton").on('click',function() {
+			let searchKeyword = $("#SearchFor").val().trim();
+				// 검색어를 공백을 기준으로 분리
+				/* let keywords = searchKeyword.split(" "); */
+				// 검색어에 공백이 포함되어 있고, 분리된 단어의 개수가 2개 이상이라면
+				if (searchKeyword.length > 3) {// 두 번째 AJAX 요청 보내기
+					$.ajax({
+						type : "GET",
+						/* url : "/post/post-search-all/"+ encodeURIComponent(searchKeyword), */
+						success : function(result) {
+							// AJAX 요청이 성공한 경우 처리
+							location.href = "/openstar/search-view/"+ encodeURIComponent(searchKeyword);
+						},
+						error : function(error) {
+							// AJAX 요청이 실패한 경우 처리
+							console.log(error);
+							alert("검색에 실패하였습니다.");
+						}
 					});
+				} else {
+					// 첫 번째 AJAX 요청 보내기
+					$.ajax({
+						type : "GET",
+						/* url : "/post/post-search/"+ encodeURIComponent(searchKeyword), */
+						success : function(result) {
+							// AJAX 요청이 성공한 경우 처리
+							location.href = "/openstar/search-view/"+ encodeURIComponent(searchKeyword);
+						},error : function(error) {
+							// AJAX 요청이 실패한 경우 처리
+							console.log(error);
+							alert("검색에 실패하였습니다.");
+						}
+					});
+				}
+			});
+
+		});
 </script>

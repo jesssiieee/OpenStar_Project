@@ -67,5 +67,14 @@ public class PostBO {
 	public List<Review> getReviewById() {
 		return postmapper.selectReviewById();
 	}
+	
+	// mypage에 로그인 한 사람이 작성한 글 목록 뿌리기
+	public List<Post> getPostByUserId (int userId) {
+		return postmapper.selectPostByUserId(userId);
+	}
+	
+	public List<Review> getReviewByUserId(int userId) {
+		return postmapper.selectReviewByUserId(userId);
+	}
 
 }

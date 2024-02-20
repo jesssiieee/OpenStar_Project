@@ -42,6 +42,10 @@ public interface PostMapper {
 	);
 	
 	public List<Review> selectReviewById();
+	
+	public List<Post> selectPostByUserId (int userId);
+	
+	public List<Review> selectReviewByUserId(int userId);
 
 
 }

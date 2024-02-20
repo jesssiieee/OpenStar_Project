@@ -93,17 +93,17 @@
 					</div>
 						
 					<!-- 오른쪽 80% 중 중간 1/3에 해당하는 내용 -->
-					<div style="width: 1000px; hieght: 300px;"
+					<div style="width: 1000px; height: 300px;"
 						class="ml-5 mt-5 border-bottom-black">
 						<h5>상세내용: ${multiResult.overView}</h5>
 					</div>
 
-					<div style="width: 1000px; hieght: 300px;"
+					<div style="width: 1000px; height: 300px;"
 						class="ml-5 mt-5 border-bottom-black">
 						<h5>작품 공개 날짜: ${multiResult.firstAirDate }</h5>
 					</div>
 
-					<div style="width: 1000px; hieght: 300px;"
+					<div style="width: 1000px; height: 300px;"
 						class="ml-5 mt-5">
 						<!-- 오른쪽 80% 중 하단 1/3에 해당하는 내용 -->
 						<div class="float-right">

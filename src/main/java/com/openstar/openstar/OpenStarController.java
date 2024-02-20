@@ -9,12 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.openstar.check.bo.CheckBO;
-import com.openstar.check.domain.Check;
 import com.openstar.check.mapper.CheckMapper;
 import com.openstar.movie.Entity.MovieTrend;
 import com.openstar.movie.Entity.MoviesTrendEntity;
@@ -29,6 +27,9 @@ import com.openstar.movie.bo.TvTrendBO;
 import com.openstar.movie.repository.MovieRepository;
 import com.openstar.movie.repository.TvRepository;
 import com.openstar.post.PostRestController;
+import com.openstar.post.bo.PostBO;
+import com.openstar.post.domain.Post;
+import com.openstar.post.domain.Review;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -50,6 +51,9 @@ public class OpenStarController {
 	
 	@Autowired
 	private CheckBO checkBO;
+	
+	@Autowired
+	private PostBO postBO;
 	
 	@Autowired
 	private CheckMapper checkMapper;
@@ -209,7 +213,12 @@ public class OpenStarController {
 	    
 	    String userLoginId = (String) session.getAttribute("userLoginId");
 	    String userName = (String) session.getAttribute("userName");
+
+	    List<Post> postList = postBO.getPostByUserId(userId);
+	    List<Review> reviewList = postBO.getReviewByUserId(userId); 
 	    
+	    model.addAttribute("postList", postList);
+	    model.addAttribute("reviewList", reviewList);
 	    model.addAttribute("viewName", "openstar/myPage");
 	    return "template/layout";
 	}
