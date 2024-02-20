@@ -146,5 +146,23 @@
  			`userId` = #{userId}
  	
  	</select>
+ 	
+ 	<delete id="deletePostByPostId" parameterType="int"  >
+ 		
+ 		DELETE FROM
+ 			`post`
+ 		WHERE
+ 			`id` = #{postId}
+ 		
+ 	</delete>
+ 	
+ 	<delete id="deleteReviewByReviewId" parameterType="int"  >
+ 		
+ 		DELETE FROM
+ 			`review`
+ 		WHERE
+ 			`id` = #{reviewId}
+ 		
+ 	</delete>
  
  </mapper>

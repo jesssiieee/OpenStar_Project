@@ -76,5 +76,13 @@ public class PostBO {
 	public List<Review> getReviewByUserId(int userId) {
 		return postmapper.selectReviewByUserId(userId);
 	}
+	
+	public void deletePost(int postId) {
+		postmapper.deletePostByPostId(postId);
+	}
+	
+	public void deleteReview(int reviewId) {
+		postmapper.deleteReviewByReviewId(reviewId);
+	}
 
 }

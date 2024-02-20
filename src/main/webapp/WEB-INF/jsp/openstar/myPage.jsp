@@ -29,27 +29,44 @@ ${userName }   --%>
     <%-- 오른쪽 80% --%>
     <div style="width: 80%;" class="content ">
     
-		<div style="width: 1000px; height: 300px;" class="ml-5 mt-5 border-bottom-black">
+		<div style="width: 1000px; height: 400px;" class="ml-5 mt-5 ">
 		
 			<h2>작성한 리뷰 목록</h2>
+			
+			<%-- 포스터이미지...................  --%>
+			
+			
 			<c:forEach items="${postList }" var="post">
-				
-				<div style="width: 800px; heigth">
-					<h5>${post.userName }</h5>
-					<span>${post.content }</span>
+			
+				<div style="display: flex; align-items: center;">	
+					<div style="width: 800px; heigth:80px;" class="mb-3">
+						<h4>${post.userName }</h4>
+						<span>${post.content }</span>
+					</div>
+					
+					 <div style="margin-left: auto;">
+						<button id="postDelete" class="btn btn-danger postDelete" data-post-id="${post.id }">삭제</button>
+					</div>
 				</div>
-				
+			
 			</c:forEach>
 		
 		</div>
+		 
 		<div style="width: 1000px; height: 400px;" class="ml-5 mt-5"> 
 		
 			<h2>작성한 커뮤니티 글 목록</h2>
 			 <c:forEach items="${reviewList }" var="review">
 			 	
-				<div style="width: 800px; heigth">
-					<h5>${review.userName }</h5>
-					<span>${review.content }</span>
+				<div style="display: flex; align-items: center;">	
+					<div style="width: 800px; heigth:80px;" class="mb-3">
+						<h4>${review.userName }</h4>
+						<span>${review.content }</span>
+					</div>
+					
+					 <div style="margin-left: auto;">
+						<button id="reviewDelete" class="btn btn-danger reviewDelete" data-review-id="${review.id }">삭제</button>
+					</div>
 				</div>
 			
 			</c:forEach>
@@ -94,7 +111,44 @@ ${userName }   --%>
     			}
     		}); // ajax
     		
-    	});
+    	}); // bookmark
+    	
+    	$(".postDelete").on('click', function() {
+    		// alert("클릭");
+    		let postId = $(this).data("post-id");
+    		// alert(postId);
+    		
+    		$.ajax({
+    			type:"POST"
+    			, url: "/post/delete-post"
+    			, data: {"postId": postId}
+    			, success: function(data) {
+    				location.reload();
+    			}
+    			
+    		}); // postDelete ajax
+    		
+    	}); // postDelete
+    	
+    	$(".reviewDelete").on('click', function() {
+    		// alert("클릭");
+    		let reviewId = $(this).data("review-id");
+    		// alert(reviewId);
+    		
+    		$.ajax({
+    			
+    			type:"POST"
+    			, url: "/post/delete-review"
+    			, data: {"reviewId": reviewId}
+    			, success: function(data) {
+    				location.reload();
+    			}
+    			
+    		}); // reviewDelete ajax
+    		
+
+    		
+    	}); //reviewDelete
     	
     });
 

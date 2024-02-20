@@ -113,5 +113,37 @@ public class PostRestController {
 		result.put("result", "성공");
 		return result; 
 	}
+	
+	@PostMapping("/delete-post")
+	public Map<String, Object> deletePost(
+			@RequestParam("postId") int postId,
+			HttpSession session) {
+		
+		Integer userId = (Integer) session.getAttribute("userId");
+		
+		// db delete
+		postBO.deletePost(postId);
+	    
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result; 
+		
+	}
+	
+	@PostMapping("/delete-review")
+	public Map<String, Object> deleteReview(
+			@RequestParam("reviewId") int reviewId,
+			HttpSession session) {
+		
+		Integer userId = (Integer) session.getAttribute("userId");
+		
+		postBO.deleteReview(reviewId);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result; 
+	}
 
 }

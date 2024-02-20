@@ -21,7 +21,6 @@
 		<div style="width: 1000px; height: 600px;"
 			class="ml-5 mt-5 border-bottom-black">
 			댓글
-			// getCommentList
 			
 			<!--<c:set var="comment" value="${getCommentList}"/> -->
 			<c:forEach items="${getCommentList }" var="comment">

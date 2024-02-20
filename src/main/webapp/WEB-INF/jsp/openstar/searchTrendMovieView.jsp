@@ -75,10 +75,12 @@
 				<h5>평점: ${movieTrendResultList.voteAverage }</h5>
 				<h5>총 수입: ${movieTrendResultList.revenue }</h5>
 				<h5>상영시간: ${movieTrendResultList.runtime }</h5>
+				
 				<div class="float-right">
-					<a href="http://localhost/post/post-community-view"><button
-							class="btn btn-primary" id="community">커뮤니티</button></a>
+					<button class="btn btn-primary" id="community" data-search-id="${movieTrendResultList.id }">커뮤니티</button>
+					<button class="btn btn-primary" id="book" data-search-id="${movieTrendResultList.id }">예매하기</button>
 				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -176,6 +178,34 @@
 
 				// 현재 요청을 배열에 추가합니다.
 				currentRequests.push(request);
+			}); // bookmark
+			
+			$("#community").on('click', function() {
+				// alert("클릭");
+				let searchId = $(this).data('search-id'); 
+				// alert(searchId);
+				
+				if (searchId != '') {
+					$.ajax({
+						type : "GET",
+						success : function(result) {
+							location.href = "/post/post-community-view/" + searchId;
+						},
+						error : function(error) {
+							console.log(error);
+							alert("검색에 실패하였습니다.");
+						}
+						
+					}); // ajax
+				}
+				
+			}); // community
+			
+			$("#book").on('click', function() {
+				// alert("클릭");
+				let searchId = $(this).data('search-id');
+				// alert(searchId);
 			});
-		});
+			
+		}); // ready
 	</script>

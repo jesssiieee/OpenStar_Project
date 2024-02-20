@@ -46,6 +46,10 @@ public interface PostMapper {
 	public List<Post> selectPostByUserId (int userId);
 	
 	public List<Review> selectReviewByUserId(int userId);
+	
+	public void deletePostByPostId(int postId);
+	
+	public void deleteReviewByReviewId(int reviewId);
 
 
 }
