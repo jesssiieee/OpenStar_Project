@@ -205,6 +205,23 @@
 				// alert("클릭");
 				let searchId = $(this).data('search-id');
 				// alert(searchId);
+				
+				if (searchId != null) {
+					$.ajax ({
+						type:"GET"
+						, data: {"searchId": searchId}
+						// , url: "/book/booking-view"
+						, success: function(result) {
+							location.href = "/book/booking-view/" + searchId;
+						}
+						, error: function(error) {
+							console.log(error);
+							alert("예매 페이지 접근에 실패하였습니다.");
+						}
+					}); // ajax
+				}
+				
+				
 			});
 			
 		}); // ready

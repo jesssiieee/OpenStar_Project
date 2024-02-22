@@ -51,78 +51,106 @@
 }
 
 .inline-item {
-	width: 250px; 
+	width: 250px;
 	height: 500px;
 	margin: 50px;
 }
 
 .border-right-info {
-    border-right: 2px solid blue; /* 테두리 두께와 색상 설정 */
+	border-right: 2px solid blue; /* 테두리 두께와 색상 설정 */
 }
 
 .border-bottom-black {
 	border-bottom: 2px solid black;
 }
 
-.comment-input {width:565px;}
+.comment-input {
+	width: 565px;
+}
 
 .star_rating {
-  width: 100%; 
-  box-sizing: border-box; 
-  display: inline-flex; 
-  float: left;
-  flex-direction: row; 
-  justify-content: flex-start;
+	width: 100%;
+	box-sizing: border-box;
+	display: inline-flex;
+	float: left;
+	flex-direction: row;
+	justify-content: flex-start;
 }
 
 .star_rating .star {
-  width: 25px; 
-  height: 25px; 
-  margin-right: 10px;
-  display: inline-block; 
-  background: url('/static/image/noneStar.png') no-repeat; 
-  background-size: 100%; 
-  box-sizing: border-box; 
+	width: 25px;
+	height: 25px;
+	margin-right: 10px;
+	display: inline-block;
+	background: url('/static/image/noneStar.png') no-repeat;
+	background-size: 100%;
+	box-sizing: border-box;
 }
+
 .star_rating .star.on {
-  width: 25px; 
-  height: 25px;
-  margin-right: 10px;
-  display: inline-block; 
-  background: url('/static/image/onstar.png') no-repeat;
-  background-size: 100%; 
-  box-sizing: border-box; 
+	width: 25px;
+	height: 25px;
+	margin-right: 10px;
+	display: inline-block;
+	background: url('/static/image/onstar.png') no-repeat;
+	background-size: 100%;
+	box-sizing: border-box;
 }
 
 .star_box {
-  width: 400px;
-  box-sizing: border-box;
-  display: inline-block;
-  margin: 15px 0;
-  background: #F3F4F8;
-  border: 0;
-  border-radius: 10px;
-  height: 100px;
-  resize: none;
-  padding: 15px;
-  font-size: 13px;
-  font-family: sans-serif;
+	width: 400px;
+	box-sizing: border-box;
+	display: inline-block;
+	margin: 15px 0;
+	background: #F3F4F8;
+	border: 0;
+	border-radius: 10px;
+	height: 100px;
+	resize: none;
+	padding: 15px;
+	font-size: 13px;
+	font-family: sans-serif;
 }
+
 .btn02 {
-  display:block;
-  width: 400px;
-  font-weight: bold;
-  border: 0;
-  border-radius: 10px;
-  max-height: 50px;
-  padding: 15px 0;
-  font-size: 1.1em;
-  text-align: center;
-  background:bisque;
+	display: block;
+	width: 400px;
+	font-weight: bold;
+	border: 0;
+	border-radius: 10px;
+	max-height: 50px;
+	padding: 15px 0;
+	font-size: 1.1em;
+	text-align: center;
+	background: bisque;
 }
 
 .review-item {
-        border: 2px solid black; /* 테두리 두께 및 색상 설정 */
-        padding: 10px; /* 내부 여백 설정 */
-        margin-bottom: 20px; /* 아래쪽 여백 설정 */
+	border: 2px solid black; /* 테두리 두께 및 색상 설정 */
+	padding: 10px; /* 내부 여백 설정 */
+	margin-bottom: 20px; /* 아래쪽 여백 설정 */
+}
+
+.container {
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 20px;
+}
+
+.seat {
+	width: 40px;
+	height: 40px;
+	margin: 5px;
+	background-color: #ccc;
+	display: inline-block;
+	cursor: pointer;
+}
+
+.selected {
+	background-color: #ff0000; /* 선택된 좌석의 배경색 */
+}
+
+.occupied {
+	background-color: #999; /* 이미 예약된 좌석의 배경색 */
+	cursor: not-allowed;
 }
