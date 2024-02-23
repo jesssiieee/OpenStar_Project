@@ -23,6 +23,11 @@ ${userName }   --%>
 	        	<button id="like" class="btn btn-info ">좋아요</button>
    				<button id="bookmark" class="btn btn-success ">찜한 목록</button>
 	        </div>
+	        
+	        <a href="http://localhost/openstar/check-Book">
+	        	<button id="checkBook" class="btn btn-info mt-3 ml-5">예매 확인</button>
+	        </a>
+	        
         </div>
     </div>
     
@@ -146,10 +151,9 @@ ${userName }   --%>
     			
     		}); // reviewDelete ajax
     		
-
-    		
     	}); //reviewDelete
     	
+    	    	
     });
 
 </script>

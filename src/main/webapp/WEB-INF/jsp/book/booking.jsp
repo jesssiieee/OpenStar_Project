@@ -7,7 +7,7 @@
 	
 		<h1 class="mb-5">예매</h1>
 
-		<form id="bookForm" action="/book/booking-content" method="post">
+		<!-- <form id="bookForm" action="/book/booking-content" method="post">  -->
 			<div class="input-group mb-3 ">
 				
 				<div class="">
@@ -37,9 +37,9 @@
 					<div>
 					    <h3>상영시간</h3>
 					    <div class="d-flex form-check">
-					        <input type="radio" name="chk_info" value="13">13:00 &nbsp; &nbsp;
-					        <input type="radio" name="chk_info" value="17">17:00 &nbsp; &nbsp;
-					        <input type="radio" name="chk_info" value="21">21:00 &nbsp; &nbsp;
+					        <input type="radio" name="chk_info" value="13:00">13:00 &nbsp; &nbsp;
+					        <input type="radio" name="chk_info" value="17:00">17:00 &nbsp; &nbsp;
+					        <input type="radio" name="chk_info" value="21:00">21:00 &nbsp; &nbsp;
 					    </div>
 					</div>
 					<br><br><br>
@@ -78,7 +78,7 @@
 				        <div id="seat-map">
 				            <!-- 좌석 배치도 -->
 				        </div>
-				        <button id="checkout-btn" data-movie-id="${movieTrendResultList.id }">결제하기</button>
+				        <button id="checkout-btn" class="btn btn-info" data-movie-id="${movieTrendResultList.id }">결제하기</button>
 				    </div>
 					
 					
@@ -86,7 +86,7 @@
 				
 								
 			</div>
-		</form>
+		<!-- </form>  -->
 	
 	</div> 
 </div>
@@ -159,11 +159,11 @@
             calculateTotal();
         });
         
-        $('#checkout-btn').click(function(event) {
+        $("#checkout-btn").on('click', function () {
         	
-        	//event.preventDefault();
+        	// event.preventDefault();
         	
-        	//alert("클릭");
+        	// alert("클릭");
         	
             // 선택한 좌석 정보를 추적합니다.
             var selectedSeats = [];
@@ -175,12 +175,6 @@
             // 선택된 좌석을 "1-1", "1-2"와 같은 형식의 문자열로 변환합니다.
             var selectedSeatString = selectedSeats.join(', ');
             // alert(selectedSeatString); 
-            
-/*             const selectedSeats = document.querySelectorAll('.seat.selected');
-            // alert(${selectedSeats});
-            const selectedSeatNumbers = Array.from(selectedSeats).map(seat => seat.dataset.seatNumber);
-            // alert(`선택한 좌석: ${selectedSeatNumbers.join(', ')}`);
-            alert(selectedSeatNumbers); */
             
             let movieId = $(this).data('movie-id');
             // alert(movieId);
@@ -215,7 +209,7 @@
                 price: totalPrice
             };
             
-            console.log(requestData);
+            // console.log(requestData.movieId);
 
             $.ajax({
                 type: 'POST',
@@ -224,9 +218,13 @@
                 data: JSON.stringify(requestData), // JSON 형식으로 데이터 변환
                 success: function(result) {
                     // 서버로부터의 응답을 처리합니다.
-                    console.log('서버 응답:', response);
+                    // console.log('서버 응답:', response);
                     // alert("영화 예약에 성공하였습니다.");
-                    location.href = "http://localhost/openstar/search-view/trend/" + ${movieTrendResultList.id };
+                    if (result.code == 200) {
+                    	console.log("실험");
+                    	window.location.assign('/openstar/mypage-view');
+                    }
+		            
                 },
                 error: function(xhr, status, error) {
                     // 오류 발생 시 처리합니다.

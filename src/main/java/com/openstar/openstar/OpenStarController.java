@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.openstar.book.bo.BookBO;
+import com.openstar.book.domain.Book;
 import com.openstar.check.bo.CheckBO;
 import com.openstar.check.mapper.CheckMapper;
 import com.openstar.movie.Entity.MovieTrend;
@@ -66,6 +68,9 @@ public class OpenStarController {
 	
 	@Autowired
 	private TvTrendBO trTrendBO;
+	
+	@Autowired
+	private BookBO bookBO;
 	
 	
 	@GetMapping("/first-view")
@@ -200,7 +205,7 @@ public class OpenStarController {
 		return "template/layout";
 	}
 	
-	@GetMapping("mypage-view")
+	@GetMapping("/mypage-view")
 	public String myPageViewPost(
 	        HttpSession session,
 	        Model model) throws UnsupportedEncodingException, IOException {
@@ -220,6 +225,22 @@ public class OpenStarController {
 	    model.addAttribute("postList", postList);
 	    model.addAttribute("reviewList", reviewList);
 	    model.addAttribute("viewName", "openstar/myPage");
+	    return "template/layout";
+	}
+	
+	@GetMapping("/check-Book")
+	public String checkBook(HttpSession session, Model model) {
+	    Integer userId = (Integer) session.getAttribute("userId");
+	    
+	    if (userId == null) {
+	         return "redirect:/user/sign-in-view";
+	    }
+	    
+	    // db select
+	    List<Book> checkBookList = bookBO.selectBookListByUserId(userId);
+	    
+	    model.addAttribute("checkBookList", checkBookList);
+	    model.addAttribute("viewName", "openstar/checkBook");
 	    return "template/layout";
 	}
 

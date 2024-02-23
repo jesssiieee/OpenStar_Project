@@ -17,8 +17,10 @@ public class Book {
 	private String title;
 	private String showtime;
 	private int headcount;
-	private String selectedseats;
+	private String selectedSeats;
 	private int price;
+	private int child;
+	private int adult;
 	private Date createdAt;
 	private Date updatedAt;
 

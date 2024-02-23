@@ -4,7 +4,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 
 @EnableScheduling // batch를 수행시킬 어노테이션, 설정된 시간에 수행시킴을 허용한다.
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class })

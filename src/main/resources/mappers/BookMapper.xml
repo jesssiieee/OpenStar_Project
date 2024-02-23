@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.openstar.book.mapper.BookMapper">
+ 
+ 	<insert id="insertContent" parameterType="map">
+ 	
+ 		INSERT INTO `booking`
+ 			(
+ 				`userId`
+ 				,`movieId`
+ 				,`location`
+ 				,`date`
+ 				,`title`
+ 				,`showtime`
+ 				,`adult`
+ 				,`child`
+ 				,`headcount`
+ 				,`selectedSeats`
+ 				,`price`
+				,`createdAt`
+				,`updatedAt`
+ 			
+ 			)
+ 		VALUES
+ 			(
+ 				#{userId}
+ 				, #{movieId}
+ 				, #{location}
+ 				, #{date}
+ 				, #{title}
+ 				, #{showtime}
+ 				, #{adult}
+ 				, #{child}
+ 				, #{headcount}
+ 				, #{selectedSeats}
+ 				, #{price}
+ 				, NOW()
+ 				, NOW()
+ 			
+ 			)
+ 	
+ 	</insert>
+ 	
+ 	<select id="getBookListByUserId" resultType="com.openstar.book.domain.Book">
+ 		
+ 		SELECT 
+ 				`id`
+ 				,`userId`
+ 				,`movieId`
+ 				,`location`
+ 				,`date`
+ 				,`title`
+ 				,`showtime`
+ 				,`adult`
+ 				,`child`
+ 				,`headcount`
+ 				,`selectedSeats`
+ 				,`price`
+				,`createdAt`
+				,`updatedAt`
+		FROM
+			`booking`
+		WHERE
+			`userId` = #{userId}
+			
+ 			
+ 		
+ 	</select>
+ 
+ </mapper>
