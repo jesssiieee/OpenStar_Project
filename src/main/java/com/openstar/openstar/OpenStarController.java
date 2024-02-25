@@ -84,15 +84,6 @@ public class OpenStarController {
 	// url: http://localhost/openstar/home-list-view
 	public String homeListView(Model model) throws UnsupportedEncodingException, IOException {
 
-		// DB 조회 영화
-//		List<MoviesTrendEntity> movieTrendList = movieRepository.findAll();
-//
-//		// DB 조회 tv
-//		List<TvTrendEntity> tvTrendList = tvRepository.findAll();
-//
-//		model.addAttribute("movieTrendList", movieTrendList);
-//		model.addAttribute("tvTrendList", tvTrendList);
-		
 		List<MoviesTrendEntity> resultHomeMovieTrendList = movieTrendBO.parseHomeMovieTrendJson();
 		List<TvTrendEntity> resultHomeTvTrendList = trTrendBO.parseHomeTvTrendJson();
 		model.addAttribute("resultHomeMovieTrendList", resultHomeMovieTrendList);
@@ -156,9 +147,7 @@ public class OpenStarController {
 			throws UnsupportedEncodingException, IOException {
 		
 		List<PersonResult> personResultList = personBO.parseJson(searchKeyword);
-//		List<MultiEntity> multiResultList = postRestController.postSearchAll(searchKeyword);
 		model.addAttribute("personResultList", personResultList);
-//		model.addAttribute("multiResultList", multiResultList);
 		model.addAttribute("contentId", contentId);
 		model.addAttribute("viewName", "openstar/detailContentsView");
 		return "template/layout";
@@ -216,9 +205,6 @@ public class OpenStarController {
 	         return "redirect:/user/sign-in-view";
 	    }
 	    
-	    String userLoginId = (String) session.getAttribute("userLoginId");
-	    String userName = (String) session.getAttribute("userName");
-
 	    List<Post> postList = postBO.getPostByUserId(userId);
 	    List<Review> reviewList = postBO.getReviewByUserId(userId); 
 	    

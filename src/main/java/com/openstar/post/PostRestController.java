@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -97,6 +98,7 @@ public class PostRestController {
 	
 	@PostMapping("/create-review")
 	public Map<String, Object> createReview(
+			@RequestParam("subject") String subject,
 			@RequestParam("rating") double rating,
 			@RequestParam("content") String content,
 			@RequestParam(value = "file", required = false) MultipartFile file,
@@ -106,7 +108,7 @@ public class PostRestController {
 		int userId = (int)session.getAttribute("userId");
 		String userLoginId = (String)session.getAttribute("userLoginId");
 		
-		postBO.addReview(userId, userLoginId, content, rating, file);
+		postBO.addReview(userId, userLoginId, subject, content, rating, file);
 		
 		Map<String, Object> result = new HashMap<>();
 		result.put("code", 200);
@@ -144,6 +146,28 @@ public class PostRestController {
 		result.put("code", 200);
 		result.put("result", "성공");
 		return result; 
+	}
+	
+	@PutMapping("/update")
+	public Map<String, Object> update (
+			@RequestParam("reviewId") int reviewId,
+			@RequestParam("subject") String subject,
+			@RequestParam("rating") double rating,
+			@RequestParam("content") String content,
+			@RequestParam(value = "file", required = false) MultipartFile file,
+			HttpSession session
+			) {
+		
+		int userId = (int)session.getAttribute("userId");
+		String userLoginId = (String)session.getAttribute("userLoginId");
+		
+		postBO.updateReviewById(userId, userLoginId, reviewId, subject, content, rating, file);
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("code", 200);
+		result.put("result", "성공");
+		return result;
+		
 	}
 
 }

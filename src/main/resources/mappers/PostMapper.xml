@@ -76,6 +76,7 @@
  			(
  				`userId`
  				, `userName`
+ 				, `subject`
  				, `content`
  				, `rating`
  				, `imagePath`
@@ -86,6 +87,7 @@
  			(
  				#{userId}
  				, #{userName}
+ 				, #{subject}
  				, #{content}
  				, #{rating}
  				, #{imagePath}
@@ -101,6 +103,7 @@
  			`id`
  			, `userId`
  			, `userName`
+ 			, `subject`
  			, `content`
  			, `rating`
  			, `imagePath`
@@ -108,6 +111,46 @@
  			, `updatedAt`
  		FROM
  			`review`
+ 	
+ 	</select>
+ 	
+ 	<select id="getReviewById" resultType="com.openstar.post.domain.Review">
+ 	
+ 		SELECT
+ 			`id`
+ 			, `userId`
+ 			, `userName`
+ 			, `subject`
+ 			, `content`
+ 			, `rating`
+ 			, `imagePath`
+ 			, `createdAt`
+ 			, `updatedAt`
+ 		FROM
+ 			`review`
+ 		WHERE
+ 			`id` = #{id}
+ 	
+ 	</select>
+ 	
+ 	<select id="selectReviewByReviewIdUserId" parameterType="map" resultType="com.openstar.post.domain.Review">
+ 	
+ 		SELECT
+ 			`id`
+ 			, `userId`
+ 			, `userName`
+ 			, `subject`
+ 			, `content`
+ 			, `rating`
+ 			, `imagePath`
+ 			, `createdAt`
+ 			, `updatedAt`
+ 		FROM
+ 			`review`
+ 		WHERE
+ 			`id` = #{reviewId}
+ 		AND
+ 			`userId` = #{userId}
  	
  	</select>
  	
@@ -135,6 +178,7 @@
  			`id`
  			, `userId`
  			, `userName`
+ 			, `subject`
  			, `content`
  			, `rating`
  			, `imagePath`
@@ -164,5 +208,21 @@
  			`id` = #{reviewId}
  		
  	</delete>
+ 	
+ 	<update id="updateReviewById" parameterType="map">
+ 		
+ 		UPDATE
+ 			`review`
+ 		SET
+ 			`subject` = #{subject}
+ 			, `content` = #{content}
+ 			<if test="imagePath != null">
+ 			, `imagePath` = #{imagePath}
+ 			</if>
+ 			, `rating` = #{rating}
+ 		WHERE
+ 			`id` = #{reviewId}
+ 			
+ 	</update>
  
  </mapper>

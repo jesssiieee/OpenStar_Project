@@ -11,6 +11,9 @@ import com.openstar.post.domain.Post;
 import com.openstar.post.domain.Review;
 import com.openstar.post.mapper.PostMapper;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class PostBO {
 	
@@ -51,7 +54,7 @@ public class PostBO {
 	
 //	postBO.addReview(userId, userLoginId, content, rating, file);
 	
-	public void addReview(int userId, String userName, String content, double rating, MultipartFile file) {
+	public void addReview(int userId, String userName, String subject, String content, double rating, MultipartFile file) {
 		
 		String imagePath = null;
 		
@@ -60,12 +63,16 @@ public class PostBO {
 			imagePath = fileManagerService.saveFile(userName, file);
 		}
 		
-		postmapper.insertReview(userId, userName, content, rating, imagePath);
+		postmapper.insertReview(userId, userName, subject, content, rating, imagePath);
 		
 	}
 	
 	public List<Review> getReviewById() {
 		return postmapper.selectReviewById();
+	}
+	
+	public Review getReviewById(int reviewId) {
+		return postmapper.getReviewById(reviewId);
 	}
 	
 	// mypage에 로그인 한 사람이 작성한 글 목록 뿌리기
@@ -77,12 +84,40 @@ public class PostBO {
 		return postmapper.selectReviewByUserId(userId);
 	}
 	
+	public Review getReviewByReviewIdUserId(int reviewId, int userId) {
+		return postmapper.selectReviewByReviewIdUserId(reviewId, userId);
+	}
+	
+	
 	public void deletePost(int postId) {
 		postmapper.deletePostByPostId(postId);
 	}
 	
 	public void deleteReview(int reviewId) {
 		postmapper.deleteReviewByReviewId(reviewId);
+	}
+	
+	public void updateReviewById(int userId, String userName, int reviewId, String subject, String content, double rating, MultipartFile file) {
+		
+		Review review = postmapper.selectReviewByReviewIdUserId(reviewId, userId);
+		if (review == null) {
+			log.info("[글 수정] review is null. postId: {}, userId: {}", reviewId, userId);
+			return;
+		}
+		
+		String imagePath = null;
+		
+		// 업로드 할 이미지가 있을 때 업로드
+		if (file != null) {
+			imagePath = fileManagerService.saveFile(userName, file);
+			
+			if (imagePath != null && review.getImagePath() != null) {
+				fileManagerService.deleteFile(review.getImagePath());
+			}
+		}
+		
+		postmapper.updateReviewById(reviewId, subject, content, imagePath, rating);
+		
 	}
 
 }

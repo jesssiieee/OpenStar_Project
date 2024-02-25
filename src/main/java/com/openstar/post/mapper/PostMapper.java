@@ -36,12 +36,15 @@ public interface PostMapper {
 	public void insertReview(
 			@Param("userId") int userId,
 			@Param("userName") String userName,
+			@Param("subject") String subject,
 			@Param("content") String content,
 			@Param("rating") double rating,
 			@Param("imagePath") String imagePath
 	);
 	
 	public List<Review> selectReviewById();
+	
+	public Review getReviewById(int reviewId);
 	
 	public List<Post> selectPostByUserId (int userId);
 	
@@ -50,6 +53,19 @@ public interface PostMapper {
 	public void deletePostByPostId(int postId);
 	
 	public void deleteReviewByReviewId(int reviewId);
+	
+	public Review selectReviewByReviewIdUserId(
+			@Param("reviewId")int reviewId, 
+			@Param("userId")int userId
+	);
+	
+	public void updateReviewById(
+			@Param("reviewId") int reviewId,
+			@Param("subject") String subject,
+			@Param("content") String content,
+			@Param("imagePath") String imagePath,
+			@Param("rating") double rating
+	);
 
 
 }

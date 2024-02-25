@@ -1,27 +1,35 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 
 <div class="d-flex justify-content-center">
 
-	<%--postId --%>
-	<input type="hidden" id="writeId" value="${writeId}">
-	
+	<%--postId 
+	<input type="hidden" id="writeId" value="${writeId}"> --%>
+
 	<div class="w-50">
 
-		<h1>글쓰기</h1>
-		
-		<div class ="star_rating mb-3">
-		  <span class="star on" value="1"> </span>
-		  <span class="star" value="2"> </span>
-		  <span class="star" value="3"> </span>
-		  <span class="star" value="4"> </span>
-		  <span class="star" value="5"> </span>
+		<h1>글 상세</h1>
+
+		<div class="star_rating mb-3">
+			<span class="star on" value="1"> </span> <span class="star" value="2">
+			</span> <span class="star" value="3"> </span> <span class="star" value="4">
+			</span> <span class="star" value="5"> </span>
 		</div>
 
-		<input type="text" id="subject" class="form-control" placeholder="제목을 입력하세요.">
+		<input type="text" id="subject" class="form-control"
+			placeholder="제목을 입력하세요." value="${reviewList.subject }">
+
 
 		<textarea id="content" class="form-control" placeholder="내용을 입력하세요."
-			rows="10"></textarea>
+			rows="10">${reviewList.content }</textarea>
+
+		<c:if test="${not empty reviewList.imagePath }">
+			<div class="my-3">
+				<img alt="업로드 된 이미지" src="${reviewList.imagePath }" width="300">
+			</div>
+		</c:if>
 
 		<div class="d-flex justify-content-end my-3">
 			<input type="file" id="file" accept=".jpg, .png, .gif, .jpeg">
@@ -31,43 +39,62 @@
 
 
 			<div class="d-flex">
-				<button type="button" id="postListBtn" class="btn btn-dark">목록</button>
-				<button type="button" id="clearBtn" class="btn btn-secondary">모두 지우기</button>
-				<button type="button" id="savetBtn" class="btn btn-info">등록</button>
+				<button type="button" id="postListBtn" class="btn btn-dark" >목록</button>
+				<button type="button" id="deleteBtn" class="btn btn-secondary" data-review-id="${reviewList.id }">삭제</button>
+				<button type="button" id="savetBtn" class="btn btn-info" data-review-id="${reviewList.id }">수정</button>
 			</div>
 		</div>
 
 	</div>
 </div>
 
+
+
 <script>
 	$(document).ready(function() {
-		
+
+		<%-- 별점 --%>
 		$('.star_rating > .star').click(function() {
-		  $(this).parent().children('span').removeClass('on');
-		  $(this).addClass('on').prevAll('span').addClass('on');
-		  
+			$(this).parent().children('span').removeClass('on');
+			$(this).addClass('on').prevAll('span').addClass('on');
 		});
-	
+		
 		// 목록 버튼 클릭 => 목록 화면 이동
 		$("#postListBtn").on('click', function() {
 			let postId = $("#writeId").val();
 			location.href = "/post/post-review-view";
 		});
-
-		// 모두 지우기 버튼 클릭
-		$("#clearBtn").on('click', function() {
-			// alert("모두 지우기");
-			$("#content").val("");
-		});
-
-		// 글 저장 버튼
-		$("#savetBtn").on('click',function() {
-			// alert("글 저장");
+		
+		$("#deleteBtn").on('click', function() {
 			
+			let reviewId = $(this).data("review-id");
+			// alert(reviewId);
+			
+			$.ajax({
+				type: "POST"
+				, url: "/post/delete-review"
+				, data:{"reviewId":reviewId}
+				, success: function(data) {
+					location.href = "/post/post-review-view";
+				}
+				, error: function(error) {
+					alert("글을 삭제하는데 실패했습니다.");
+				}
+				
+			});
+			
+		}); // deleteBtn
+		
+		$("#savetBtn").on('click', function() {
+			
+			let reviewId = $(this).data("review-id");
+			// alert(reviewId);
 			let subject = $("#subject").val();
+			// alert(subject);
 			let content = $("#content").val();
+			// alert(content);
 			let fileName = $("#file").val(); // C:\fakepath\cat-8361048_1280.jpg
+			// alert(fileName);
 			
 			// 클릭된 별과 그 이전 모든 별을 선택합니다.
 		    let selectedStars = $('.star_rating > .star.on');
@@ -75,18 +102,6 @@
 		    // 선택된 별의 개수를 가져옵니다.
 		    let numberOfStars = selectedStars.length;
 		   	// alert(numberOfStars);
-			
-			// validation check
-			
-			if (!subject) {
-				alert("제목을 입력하세요.");
-				return;
-			}
-			
-			if (!content) {
-				alert("내용을 입력하세요.");
-				return;
-			}
 
 			// 파일이 업로드 된 경우에만 확장자 체크 (null 허용)
 			if (fileName) {
@@ -107,6 +122,7 @@
 			// form 태그를 js에서 만든다. 
 			// 이미지를 업로드 할 때는 반드시 form 태그가 있어야 한다.
 			let formData = new FormData();
+			formData.append("reviewId", reviewId);
 			formData.append("subject", subject);
 			formData.append("content", content);
 			formData.append("rating", numberOfStars); // 별의 개수를 formData에 추가
@@ -115,8 +131,8 @@
 			// AJAX
 			$.ajax({
 				// request
-				type: "POST",
-				url: "/post/create-review",
+				type: "PUT",
+				url: "/post/update",
 				data: formData,
 				enctype: "multipart/form-data", // 파일 업로드를 위한 필수 설정
 				processData: false, // 파일 업로드를 위한 필수 설정
@@ -134,8 +150,8 @@
 					alert("글을 저장하는데 실패했습니다.");
 				}
 			}); // ajax
-
-		}); // saveBtn
+			
+		}); // savetBtn
 
 	});
 </script>

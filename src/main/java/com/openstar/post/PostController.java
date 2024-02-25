@@ -5,12 +5,14 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -152,6 +154,25 @@ public class PostController {
 		model.addAttribute("viewName", "post/reviewList");
 		return "template/layout";
 	}
+	
+	@GetMapping("/post-review-detail/{reviewId}")
+	public String postReviewDetail(
+			@PathVariable(name = "reviewId") int reviewId,
+			HttpSession session,
+			Model model) {
+		
+		Integer userId = (Integer) session.getAttribute("userId");
+
+		if (userId == null) {
+			return "redirect:/user/sign-in-view";
+		}
+		
+		Review reviewList = postBO.getReviewById(reviewId);
+		
+		model.addAttribute("reviewList", reviewList);
+		model.addAttribute("viewName", "post/writeReviewDetail");
+		return "template/layout";
+	}
 
 	@GetMapping("/post-bookmark-list")
 	// url: http://localhost/post/post-bookmark-list
@@ -255,8 +276,6 @@ public class PostController {
 		        }
 		    }
 		}
-
-
 
 		model.addAttribute("checkList", checkList);
 		model.addAttribute("tvTrendResultList", tvTrendResultList);
