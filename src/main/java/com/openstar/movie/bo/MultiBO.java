@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -25,8 +26,12 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class MultiBO {
-
-	public static final String KEY = "b250b43bc815002de64903f4433d25bd";
+	
+    @Value("${api.multi.base-url}")
+    private String baseUrl;
+    
+    @Value("${api.key}")
+    private String key;
 
 	public List<MultiEntity> parseJsonMulti(@PathVariable(name = "searchKeyword") String searchKeyword)
 			throws UnsupportedEncodingException, IOException {
@@ -37,10 +42,10 @@ public class MultiBO {
 
 		char firstChar = searchKeyword.charAt(0);
 		if ((firstChar >= '가' && firstChar <= '힣') || (firstChar >= 'ㄱ' && firstChar <= 'ㅎ')) {
-			apiURL = "https://api.themoviedb.org/3/search/multi?api_key=" + KEY + "&query=" + searchKeyword;
+			apiURL = baseUrl + key + "&query=" + searchKeyword;
 		} else if ((firstChar >= 'a' && firstChar <= 'z') || (firstChar >= 'A' && firstChar <= 'Z')) {
 			searchKeyword = URLEncoder.encode(searchKeyword, "UTF-8");
-			apiURL = "https://api.themoviedb.org/3/search/multi?api_key=" + KEY + "&query=" + searchKeyword;
+			apiURL = baseUrl + key + "&query=" + searchKeyword;
 		}
 
 		String ImgUrl = "https://image.tmdb.org/t/p/w200";

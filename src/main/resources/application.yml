@@ -24,3 +24,21 @@ spring:
         ddl-auto: update
 mybatis:
   mapper-locations: mappers/*Mapper.xml  
+api:
+  key: "b250b43bc815002de64903f4433d25bd"
+  movie-trend:
+    base-url: "https://api.themoviedb.org/3/trending/movie/week"
+    language: "ko"
+    sort-by: "vote_average.desc"
+  tv-trend:
+    base-url: "https://api.themoviedb.org/3/trending/tv/week"
+    language: "ko"
+    sort-by: "vote_average.desc"
+  movie-parse:
+    base-url: "https://api.themoviedb.org/3/movie/"
+  tv-parse:
+    base-url: "https://api.themoviedb.org/3/tv/"
+  multi:
+    base-url: "https://api.themoviedb.org/3/search/multi?api_key="
+  person:
+    base-url: "https://api.themoviedb.org/3/search/person?api_key="

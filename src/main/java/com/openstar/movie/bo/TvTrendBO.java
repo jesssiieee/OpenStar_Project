@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -34,40 +35,25 @@ public class TvTrendBO {
 	@Autowired
 	private TvRepository tvRepository;
 	
+    @Value("${api.tv-trend.base-url}")
+    private String baseUrl;
+    
+    @Value("${api.tv-parse.base-url}")
+    private String parseBaseUrl;
+
+    @Value("${api.tv-trend.language}")
+    private String language;
+
+    @Value("${api.tv-trend.sort-by}")
+    private String sortBy;
+
+    @Value("${api.key}")
+    private String key;
+	
 	public static final String KEY = "b250b43bc815002de64903f4433d25bd";
 
     LocalDateTime dateTime = LocalDateTime.now();
 
-//    public String getInfo(String result) {
-//
-//        JsonArray list = null;
-//
-//        log.info("서비스 시작" );
-//        JsonParser jsonParser = new JsonParser();
-//        JsonObject jsonObject = (JsonObject) jsonParser.parse(result);
-//        list = (JsonArray) jsonObject.get("results");
-//
-//        for (int k = 0; k < list.size(); k++) {
-//            JsonObject contents = (JsonObject) list.get(k);
-//
-//            String ImgUrl = "https://image.tmdb.org/t/p/w200";
-//            String match = "[\"]";
-//
-//            tvRepository.save(
-//            		TvTrendEntity.builder()
-//                    .movieId(contents.get("id").getAsInt())
-//                    .grade(contents.get("vote_average").getAsDouble())
-//                    .overview(contents.get("overview").getAsString())
-//                    .posterPath(ImgUrl + contents.get("poster_path").toString().replaceAll(match, ""))
-//                    .releaseDate(LocalDate.parse(contents.get("first_air_date").getAsString()))
-//                    .title(contents.get("name").toString())
-//                    .build()
-//            );
-//
-//        }
-//        return "ok";
-//    }
-    
     public List<TvTrendEntity> parseHomeTvTrendJson() {
 	    String ImgUrl = "https://image.tmdb.org/t/p/w200";
 	    String match = "[\"]";
@@ -79,8 +65,7 @@ public class TvTrendBO {
 	    while(page <= maxPages) {
 	    	try {
 	    		
-	            String apiURL = "https://api.themoviedb.org/3/trending/tv/week?api_key=" + KEY
-	                    + "&language=ko&sort_by=vote_average.desc&page=" + page;
+	    		String apiURL = baseUrl + "?api_key=" + key + "&language=" + language + "&sort_by=" + sortBy + "&page=" + page;
 	            URL url = new URL(apiURL);
 	            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 	            connection.setRequestMethod("GET");
@@ -130,9 +115,8 @@ public class TvTrendBO {
     
     
     public TvTrend parseTvTrendJson(@PathVariable(name = "tvId") int tvId) throws UnsupportedEncodingException, IOException {
-    	// movieId select
     	
-        String apiURL = "https://api.themoviedb.org/3/tv/" + tvId + "?api_key=" + KEY;
+    	String apiURL = parseBaseUrl + tvId + "?api_key=" + key;
         String ImgUrl = "https://image.tmdb.org/t/p/w200";
         String match = "[\"]";
         String result = "";
