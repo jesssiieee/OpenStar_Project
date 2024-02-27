@@ -176,55 +176,17 @@ public class PostController {
 
 	@GetMapping("/post-bookmark-list")
 	// url: http://localhost/post/post-bookmark-list
-	public String postBookMarkList(HttpSession session, Model model) throws UnsupportedEncodingException, IOException {
+	public String postBookMarkList(
+			HttpSession session, Model model) throws UnsupportedEncodingException, IOException {
 
 		Integer userId = (Integer) session.getAttribute("userId");
 
 		if (userId == null) {
 			return "redirect:/user/sign-in-view";
 		}
-
-		MovieTrend movieTrendResult = null;
-		TvTrend tvTrendResult = null;
-
-		List<MovieTrend> movieTrendResultList = new ArrayList<>();
-		List<TvTrend> tvTrendResultList = new ArrayList<>();
-
-		List<Check> checkList = (List<Check>) checkBO.getCheckByUserId(userId);
-
-		for (int i = 0; i < checkList.size(); i++) {
-		    String type = checkList.get(i).getType();
-		    if (type.equals("bookmark")) {
-		        int checkId = checkList.get(i).getContentId();
-		        try {
-		            // tvTrendBO.parseTvTrendJson() 호출
-		            tvTrendResult = tvTrendBO.parseTvTrendJson(checkId);
-		            if (tvTrendResult != null) {
-		                tvTrendResultList.add(tvTrendResult);
-		            } else {
-		                // tvTrendResult가 null인 경우, movieTrendBO.parseMovieTrendJson() 호출
-		                movieTrendResult = movieTrendBO.parseMovieTrendJson(checkId);
-		                if (movieTrendResult != null) {
-		                    movieTrendResultList.add(movieTrendResult);
-		                }
-		            }
-		        } catch (FileNotFoundException e) {
-		            // tvTrendBO.parseTvTrendJson()에서 FileNotFoundException이 발생하는 경우
-		            // movieTrendBO.parseMovieTrendJson() 호출
-		            movieTrendResult = movieTrendBO.parseMovieTrendJson(checkId);
-		            if (movieTrendResult != null) {
-		                movieTrendResultList.add(movieTrendResult);
-		            }
-		        } catch (Exception e) {
-		            // 기타 예외에 대한 처리
-		            e.printStackTrace(); // 또는 로그에 기록
-		        }
-		    }
-		}
-
-		model.addAttribute("checkList", checkList);
-		model.addAttribute("tvTrendResultList", tvTrendResultList);
-		model.addAttribute("movieTrendResultList", movieTrendResultList);
+		
+		checkBO.processCheckList(userId, "bookmark", model);
+		
 		model.addAttribute("viewName", "post/bookMarkList");
 		return "template/layout";
 	}
@@ -239,47 +201,8 @@ public class PostController {
 			return "redirect:/user/sign-in-view";
 		}
 
-		MovieTrend movieTrendResult = null;
-		TvTrend tvTrendResult = null;
+		checkBO.processCheckList(userId, "like", model);
 
-		List<MovieTrend> movieTrendResultList = new ArrayList<>();
-		List<TvTrend> tvTrendResultList = new ArrayList<>();
-
-		List<Check> checkList = (List<Check>) checkBO.getCheckByUserId(userId);
-
-		for (int i = 0; i < checkList.size(); i++) {
-		    String type = checkList.get(i).getType();
-		    if (type.equals("like")) {
-		        int checkId = checkList.get(i).getContentId();
-		        try {
-		            // tvTrendBO.parseTvTrendJson() 호출
-		            tvTrendResult = tvTrendBO.parseTvTrendJson(checkId);
-		            if (tvTrendResult != null) {
-		                tvTrendResultList.add(tvTrendResult);
-		            } else {
-		                // tvTrendResult가 null인 경우, movieTrendBO.parseMovieTrendJson() 호출
-		                movieTrendResult = movieTrendBO.parseMovieTrendJson(checkId);
-		                if (movieTrendResult != null) {
-		                    movieTrendResultList.add(movieTrendResult);
-		                }
-		            }
-		        } catch (FileNotFoundException e) {
-		            // tvTrendBO.parseTvTrendJson()에서 FileNotFoundException이 발생하는 경우
-		            // movieTrendBO.parseMovieTrendJson() 호출
-		            movieTrendResult = movieTrendBO.parseMovieTrendJson(checkId);
-		            if (movieTrendResult != null) {
-		                movieTrendResultList.add(movieTrendResult);
-		            }
-		        } catch (Exception e) {
-		            // 기타 예외에 대한 처리
-		            e.printStackTrace(); // 또는 로그에 기록
-		        }
-		    }
-		}
-
-		model.addAttribute("checkList", checkList);
-		model.addAttribute("tvTrendResultList", tvTrendResultList);
-		model.addAttribute("movieTrendResultList", movieTrendResultList);
 		model.addAttribute("viewName", "post/likeList");
 		return "template/layout";
 	}

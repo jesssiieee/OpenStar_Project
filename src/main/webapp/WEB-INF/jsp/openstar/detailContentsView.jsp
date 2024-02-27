@@ -31,14 +31,38 @@ int contentId = Integer.parseInt(contentIdStr);
 							<h2 class="ml-5 mt-3" style="color: red;">평점:
 								${knownFor.voteAverage}</h2>
 						</div>
+						
+						
 						<div class="mr-5 mt-3">
-							<a href="#">
-								<img style="height: 35px; width: 35px;" class=""src="/static/image/noneheart.png">
-							</a> 
-							<a href="#">
-								<img style="height: 50px; width: 50px;" class="ml-2"src="/static/image/nonebookmark.png">
-							</a>
+							<c:set value="${isLiked }" var="like"/>
+							
+							<c:if test="${like == false }">
+								<a href="#" class="like-btn" data-content-id="${knownFor.id }" >
+									<img style="height: 40px; width: 35px;" class="ml-2 mt-1" src="/static/image/noneheart.png">
+								</a>
+							</c:if>
+							
+							<c:if test="${like }">
+								<a href="#" class="like-btn" data-content-id="${knownFor.id }" >
+									<img style="height: 40px; width: 35px;" class="ml-2 mt-1" src="/static/image/heart.png">
+								</a>
+							</c:if>
+							
+							<c:set value="${isBookMarked }" var="bookmark" />
+							<c:if test="${bookmark eq false }">
+								<a href="#" class="bookmark-btn" data-content-id="${knownFor.id }" >
+									<img style="height: 50px; width: 50px;" class="ml-2" src="/static/image/nonebookmark.png">
+								</a>
+							</c:if>
+							
+							<c:if test="${bookmark eq true }">
+								<a href="#" class="bookmark-btn" data-content-id="${knownFor.id }" >
+									<img style="height: 50px; width: 50px;" class="ml-2" src="/static/image/bookmark.png">
+								</a>
+							</c:if>
 						</div>
+						
+						
 					</div>
 
 					<div style="height: 400px;" class="">
@@ -73,6 +97,77 @@ int contentId = Integer.parseInt(contentIdStr);
 <script>
 
 	$(document).ready(function() {
+		
+		 // Like 버튼 클릭 이벤트 핸들러
+	    $(document).on('click', '.like-btn', function(e) {
+	    	
+	    	e.preventDefault();
+	    	
+	    	// alert("like");
+	    	
+	        // Like 버튼에 대한 AJAX 요청만 수행
+	        let button = $(this);
+	        let contentId = button.data("content-id");
+	        // alert(contentId);
+	        let type = 'like';
+
+	        console.log("Like 버튼 클릭 - contentId: " + contentId);
+
+	        let request = $.ajax({
+	            url: "/check/like/" + contentId,
+	            data: { "type": type },
+	            success: function(data) {
+	                if (data.code == 200) {
+	                    location.reload(true);
+	                } else if (data.code == 300) {
+	                    alert(data.error_message);
+	                    location.href = "/user/sign-in-view";
+	                }
+	            },
+	            error: function(request, status, error) {
+	                alert("좋아요를 하는데 실패했습니다.");
+	            }
+	        });
+
+	    });
+
+	    // Bookmark 버튼 클릭 이벤트 핸들러
+	    $(document).on('click', '.bookmark-btn', function(e) {
+	    	
+	    	e.preventDefault();
+	    	
+	    	// alert("bookmark");
+	    	
+	        // Bookmark 버튼에 대한 AJAX 요청만 수행
+	        let button = $(this);
+	        let contentId = button.data("content-id");
+	        //  alert(contentId);
+	        console.log(contentId);
+	        let type = 'bookmark';
+
+	        console.log("Bookmark 버튼 클릭 - contentId: " + contentId);
+
+	        let request = $.ajax({
+	            url: "/check/bookmark/" + contentId,
+	            data: { "type": type },
+	            success: function(data) {
+	                if (data.code == 200) {
+	                   location.reload(true);
+	                } else if (data.code == 300) {
+	                    alert(data.error_message);
+	                    location.href = "/user/sign-in-view";
+	                }
+	            },
+	            error: function(request, status, error) {
+	                alert("북마크를 하는데 실패했습니다.");
+	            }
+	        });
+
+	        // 현재 요청을 배열에 추가합니다.
+	        currentRequests.push(request);
+	    }); // bookmark
+		
+		
 		$("#community").on('click', function() {
 			// alert("클릭");
 			

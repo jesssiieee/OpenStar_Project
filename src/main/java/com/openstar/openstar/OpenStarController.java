@@ -142,11 +142,20 @@ public class OpenStarController {
 //	 url: http://localhost/openstar/search-view/detail
 	public String detailSearchView(
 			@PathVariable(name = "searchKeyword") String searchKeyword,
-			@RequestParam(name = "contentId", required = false) String contentId, 
+			@RequestParam(name = "contentId", required = false) int contentId, 
+			HttpSession session,
 			Model model)
 			throws UnsupportedEncodingException, IOException {
 		
+		Integer userId = (Integer) session.getAttribute("userId");
 		List<PersonResult> personResultList = personBO.parseJson(searchKeyword);
+		
+		
+		boolean isLiked = checkBO.getCountByContentIdUserIdType(userId, contentId, "like");
+		boolean isBookMarked = checkBO.getCountByContentIdUserIdType(userId, contentId, "bookmark");
+		
+		model.addAttribute("isLiked", isLiked);
+		model.addAttribute("isBookMarked", isBookMarked);
 		model.addAttribute("personResultList", personResultList);
 		model.addAttribute("contentId", contentId);
 		model.addAttribute("viewName", "openstar/detailContentsView");
